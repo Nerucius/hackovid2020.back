@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@ComponentScan(basePackages = "graphemon.graphemon")
+@ComponentScan(basePackages = "hackovid2020.back")
 @EnableWebMvc
 @EnableCaching
 @EnableScheduling
