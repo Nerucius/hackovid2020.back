@@ -10,5 +10,4 @@ ARG JAR_FILE=target/back.jar
 
 COPY ${JAR_FILE} app.jar
 
-ENTRYPOINY ["java", "-jar", "app.jar"]
-
+ENTRYPOINT ["java", "-jar", "app.jar"]
