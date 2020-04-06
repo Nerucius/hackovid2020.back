@@ -1,0 +1,16 @@
+# See http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+
+server:
+  port: 8080
+  compression:
+    enabled: false
+
+spring:
+  main.show-banner: false
+  application:
+    name: hackovid2020.back
+    profiles:
+      active: development
+  jpa:
+    
+  
