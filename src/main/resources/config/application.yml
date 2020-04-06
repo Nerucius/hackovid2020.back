@@ -1,16 +1,62 @@
 # See http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 
+# ------------------------ START OF SERVER CONFIGURATION ---------------------------
 server:
   port: 8080
   compression:
     enabled: false
 
+# ------------------------- END OF SERVER CONFIGURATION ----------------------------
+
+# ------------------------ START OF SPRING CONFIGURATION ---------------------------
 spring:
+
   main.show-banner: false
   application:
     name: hackovid2020.back
-    profiles:
-      active: development
+    
+  profiles:
+    active: development
+      
+  datasource:  
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/db
+    username: postgres
+    password: postgres
+      
   jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    generate-ddl: false
+    properties:
+      hibernate.ddl-auto: none
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      javax.persistence.jdbc.driver: org.postgresql.Driver
+      javax.persistence.jdbc.dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate.jdbc.time_zone: UTC
+      hibernate.connection.useUnicode: true
+      hibernate.connection.characterEncoding: UTF-8
+      hibernate.connection.charSet: UTF-8
+      
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+      write-date-timestamps-as-nanoseconds: false
+    deserialization:
+      read-date-timestamps-as-nanoseconds: false
+
+# ------------------------ END OF SPRING CONFIGURATION -----------------------------
+
+# ------------------------ START OF LIQUIBASE CONFIGURATION ------------------------
+liquibase:
+  default-schema: development
+  url: jdbc:postgresql://localhost:5432/db?useLegacyDatetimeCode=false&serverTimezone=GMT&useUnicode=true&useSSL=false
+  change-log: classpath:db/db-master-changelog.xml
+  user: postgres
+  password: postgres
+
+# ------------------------ END OF LIQUIBASE CONFIGURATION --------------------------
     
   
