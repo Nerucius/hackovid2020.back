@@ -3,6 +3,7 @@ package hackovid2020.back.config;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 @EnableCaching
 @EnableScheduling
+@Import(SwaggerConfig.class)
 public class ApplicationConfig implements WebMvcConfigurer {
 	
 	@Override
@@ -29,13 +31,11 @@ public class ApplicationConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		// swagger UI
-		registry.addResourceHandler("/documentation/**")
-				.addResourceLocations("classpath:/META-INF/resources/");
-		registry.addResourceHandler("/documentation/swagger-ui.html**")
-				.addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
-		registry.addResourceHandler("/documentation/webjars/**")
-				.addResourceLocations("classpath:/META-INF/resources/webjars/");
+		registry.addResourceHandler("swagger-ui.html")
+	      .addResourceLocations("classpath:/META-INF/resources/");
+
+	    registry.addResourceHandler("/webjars/**")
+	      .addResourceLocations("classpath:/META-INF/resources/webjars/");
 	}
 
 }

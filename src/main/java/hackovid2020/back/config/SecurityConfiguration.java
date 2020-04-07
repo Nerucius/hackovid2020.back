@@ -20,56 +20,55 @@ import hackovid2020.back.service.support.AuthenticationProvider;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher(
-			  new AntPathRequestMatcher("/api/**")
-			 );
-
+			new AntPathRequestMatcher("/api/**"));
+	
 	AuthenticationProvider provider;
 
-	 public SecurityConfiguration(final AuthenticationProvider authenticationProvider) {
-	  super();
-	  this.provider = authenticationProvider;
-	 }
+	public SecurityConfiguration(final AuthenticationProvider authenticationProvider) {
+		super();
+		this.provider = authenticationProvider;
+	}
+	
+	@Override
+	protected void configure(final AuthenticationManagerBuilder auth) {
+		auth.authenticationProvider(provider);
+	}
 	 
-	 @Override
-	 protected void configure(final AuthenticationManagerBuilder auth) {
-	  auth.authenticationProvider(provider);
-	 }
-	 
-	 @Override
-	 public void configure(final WebSecurity webSecurity) {
-	  webSecurity.ignoring().antMatchers("/token/**");
-	 }
-	 
-	 @Override
-	 public void configure(HttpSecurity http) throws Exception {
-	  http.sessionManagement()
-	   .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-	   .and()
-	   .exceptionHandling()
-	   .and()
-	   .authenticationProvider(provider)
-	   .addFilterBefore(authenticationFilter(), AnonymousAuthenticationFilter.class)
-	   .authorizeRequests()
-	   .requestMatchers(PROTECTED_URLS)
-	   .authenticated()
-	   .and()
-	   .csrf().disable()
-	   .formLogin().disable()
-	   .httpBasic().disable()
-	   .logout().disable();
-	 }
-	 
-	 @Bean
-	 AuthenticationFilter authenticationFilter() throws Exception {
-	  final AuthenticationFilter filter = new AuthenticationFilter(PROTECTED_URLS);
-	  filter.setAuthenticationManager(authenticationManager());
-	  //filter.setAuthenticationSuccessHandler(successHandler());
-	  return filter;
-	 }
-	 
-	 @Bean
-	 AuthenticationEntryPoint forbiddenEntryPoint() {
-	  return new HttpStatusEntryPoint(HttpStatus.FORBIDDEN);
-	 }
+	@Override
+	public void configure(final WebSecurity webSecurity) {
+		webSecurity.ignoring().antMatchers(
+					"/v2/api-docs",
+					"/configuration/ui,",
+					"/swagger-resources/**",
+					"/configuration/security",
+					"/swagger-ui.html",
+					"/webjars/**");
+	}
+	
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		.and().exceptionHandling()
+		.and().authenticationProvider(provider)
+		.addFilterBefore(authenticationFilter(), AnonymousAuthenticationFilter.class)
+		.authorizeRequests()
+			.requestMatchers(PROTECTED_URLS)
+			.authenticated()
+		.and().csrf().disable()
+		.formLogin().disable()
+		.httpBasic().disable()
+		.logout().disable();
+	}
+	
+	AuthenticationFilter authenticationFilter() throws Exception {
+		final AuthenticationFilter filter = new AuthenticationFilter(PROTECTED_URLS);
+		filter.setAuthenticationManager(authenticationManager());
+		return filter;
+	}
+	
+	@Bean
+	AuthenticationEntryPoint forbiddenEntryPoint() {
+		return new HttpStatusEntryPoint(HttpStatus.FORBIDDEN);
+	}
 	
 }

@@ -19,33 +19,31 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-
-	 @Bean
-	    public Docket api() { 
-	       return new Docket(DocumentationType.SWAGGER_2)
-	    	  .select()
-	          .paths(paths()) 
-	          .apis(RequestHandlerSelectors.any())              
-	          .paths(PathSelectors.any())
-	          .build()
-	          .apiInfo(apiInfo());
-	    }
-	 
-	@SuppressWarnings("unchecked")
-	private Predicate<String> paths() {
-	      return or(
-	          regex("/api.*")
-	        );
-	    }
 	
-	 private ApiInfo apiInfo() {
-	    	return new ApiInfoBuilder()
-	    			.title("Hackovid 2020")
-	    			.description("API documentation for the Hackovid 2020 application backend")
-	    			.termsOfServiceUrl("**TBD**")
-	    			.version("1.0.0")
-	    			.license("MIT")
-	    			.licenseUrl("https://opensource.org/licenses/MIT")
-	    			.build();
-	    }
+	@Bean
+	public Docket api() {
+		return new Docket(DocumentationType.SWAGGER_2).select()
+				.apis(RequestHandlerSelectors.any())
+				.paths(paths())
+				.paths(PathSelectors.any())
+				.build()
+				.apiInfo(apiInfo());
+	}
+
+	@SuppressWarnings("unchecked")
+	public Predicate<String> paths() {
+		return or(regex("/api.*"));
+	}
+	
+	private ApiInfo apiInfo() {
+		return new ApiInfoBuilder()
+				.title("Hackovid 2020")
+				.description("API documentation for the Hackovid 2020 application backend")
+				.version("**TBD**")
+				.termsOfServiceUrl("1.0.0")
+				.license("MIT")
+				.licenseUrl("https://opensource.org/licenses/MIT")
+				.build();
+	}
+	
 }

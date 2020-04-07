@@ -16,7 +16,7 @@ public class UserService {
 	private UserRepository userRepository;
 	
 	public String login(String mail, String password) {
-		Optional<User> oUser = userRepository.login(mail, password);
+		Optional<User> oUser = userRepository.findUserByMailAndPassword(mail, password);
 		if (oUser.isPresent()) {
 			String token = UUID.randomUUID().toString();
 			User user = oUser.get();
@@ -34,6 +34,10 @@ public class UserService {
 			return Optional.of(user);
 		}
 		return Optional.empty();
+	}
+	
+	public User save(User user) {
+		return userRepository.save(user);
 	}
 
 }

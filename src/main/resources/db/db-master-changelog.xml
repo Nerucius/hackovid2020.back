@@ -6,6 +6,4 @@
                             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
                             
         <include file="migrations/0001-user.xml" relativeToChangelogFile="true"/>
-
 </databaseChangeLog>
-   

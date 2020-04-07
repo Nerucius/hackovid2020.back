@@ -11,8 +11,7 @@ import hackovid2020.back.dao.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
 
-	@Query(value = "SELECT * FROM user u WHERE u.mail = ?1 and u.password = ?2")
-	Optional<User> login(String mail, String password);
+	Optional<User> findUserByMailAndPassword(String mail, String password);
 	
 	Optional<User> findByToken(String token);
 	

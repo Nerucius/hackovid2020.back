@@ -12,7 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @SuppressWarnings("serial")
-@Entity
+@Entity(name="user")
 public class User extends EntityObject implements UserDetails {
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
