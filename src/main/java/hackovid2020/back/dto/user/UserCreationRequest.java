@@ -1,11 +1,13 @@
-package hackovid2020.back.dto;
+package hackovid2020.back.dto.user;
 
 import java.util.Calendar;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import hackovid2020.back.Constants;
 import hackovid2020.back.dao.User;
+import hackovid2020.back.utils.MD5Util;
 
 public class UserCreationRequest {
 	
@@ -16,6 +18,8 @@ public class UserCreationRequest {
 	private String mail;
 	
 	private String password;
+	
+	private String imageUrl;
 
 	@JsonCreator
 	private UserCreationRequest(
@@ -27,10 +31,11 @@ public class UserCreationRequest {
 		this.lastName = lastName;
 		this.mail = mail;
 		this.password = password;
+		this.imageUrl = Constants.GRAVATAR + MD5Util.md5Hex(mail);
 	}
 	
 	public User toUser() {
-		return User.createUser(firstName, lastName, mail, password,
+		return User.createUser(firstName, lastName, mail, password, imageUrl,
 				Calendar.getInstance().getTime(), Calendar.getInstance().getTime());
 	}
 

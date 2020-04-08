@@ -17,7 +17,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import hackovid2020.back.Constants;
 import hackovid2020.back.dao.User;
+import hackovid2020.back.utils.MD5Util;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -36,9 +38,10 @@ public class UserTest {
 		String surname = "Parker";
 		String mail = name + surname + "@gmail.com";
 		String password = "123456";
+		String url = Constants.GRAVATAR + MD5Util.md5Hex(mail);
 		
 		// Act
-		User user = User.createUser(name, surname, mail, password,
+		User user = User.createUser(name, surname, mail, password, url,
 				Calendar.getInstance().getTime(), Calendar.getInstance().getTime());
 		
 		// Assert

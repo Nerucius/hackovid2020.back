@@ -1,4 +1,4 @@
-package hackovid2020.back.dto;
+package hackovid2020.back.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

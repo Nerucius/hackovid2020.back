@@ -1,4 +1,4 @@
-package hackovid2020.back.dto;
+package hackovid2020.back.dto.user;
 
 import java.util.Date;
 
@@ -25,6 +25,9 @@ public class UserDetailsResponse {
 	private String password;
 	
 	@JsonProperty
+	private String imageUrl;
+	
+	@JsonProperty
 	private boolean isAcountNonExpired;
 	
 	@JsonProperty
@@ -43,12 +46,15 @@ public class UserDetailsResponse {
 	private Date modifiedAt;
 	
 	@JsonCreator
-	private UserDetailsResponse(String firstName, String lastName, String mail, String password, boolean isAccountNonExpired,
-			boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled, Date createdAt, Date modifiedAt) {
+	private UserDetailsResponse(Long userId, String firstName, String lastName, String mail, String password, String imageUrl,
+			boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled,
+			Date createdAt, Date modifiedAt) {
+		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.mail = mail;
 		this.password = password;
+		this.imageUrl = imageUrl;
 		this.isAcountNonExpired = isAccountNonExpired;
 		this.isAccountNonLocked = isAccountNonLocked;
 		this.isCredentialsNonExpired = isCredentialsNonExpired;
@@ -58,8 +64,8 @@ public class UserDetailsResponse {
 	}
 	
 	public static UserDetailsResponse ofUser(User user) {
-		return new UserDetailsResponse(user.getFirstName(), user.getLastName(), user.getMail(), user.getPassword(), 
-				user.isAccountNonExpired(), user.isAccountNonLocked(), user.isCredentialsNonExpired(),
+		return new UserDetailsResponse(user.getUserId(), user.getFirstName(), user.getLastName(), user.getMail(), user.getPassword(), 
+				user.getImageUrl(), user.isAccountNonExpired(), user.isAccountNonLocked(), user.isCredentialsNonExpired(),
 				user.isEnabled(), user.getCreatedAt(), user.getModifiedAt());
 	}
 

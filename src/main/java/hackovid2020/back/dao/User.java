@@ -26,11 +26,11 @@ public class User extends EntityObject implements UserDetails {
 	
 	private String password;
 	
-	private Long imageId;
+	private String imageUrl;
 	
 	private String token;
 	
-	private boolean isAcountNonExpired;
+	private boolean isAccountNonExpired;
 	
 	private boolean isAccountNonLocked;
 	
@@ -38,21 +38,26 @@ public class User extends EntityObject implements UserDetails {
 	
 	private boolean isEnabled;
 	
-	private User(String firstName, String lastName, String mail, String password, Date createdAt, Date modifiedAt) {
+	User(){
+		super(null, null);
+	}
+	
+	private User(String firstName, String lastName, String mail, String password, String imageUrl, Date createdAt, Date modifiedAt) {
 		super(createdAt, modifiedAt);
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.mail = mail;
 		this.password = password;
+		this.imageUrl = imageUrl;
 		this.isAccountNonLocked = true;
-		this.isAcountNonExpired = true;
+		this.isAccountNonExpired = true;
 		this.isCredentialsNonExpired = true;
 		this.isEnabled = true;
 	}
 	
 	public static User createUser(String firstName, String lastName, String mail, 
-			 String password, Date createdAt, Date modifiedAt) {
-		return new User(firstName, lastName, mail, password, createdAt, modifiedAt);
+			 String password, String imageUrl, Date createdAt, Date modifiedAt) {
+		return new User(firstName, lastName, mail, password, imageUrl, createdAt, modifiedAt);
 	}
 
 	public String getFirstName() {
@@ -87,12 +92,12 @@ public class User extends EntityObject implements UserDetails {
 		this.password = password;
 	}
 
-	public Long getImageId() {
-		return imageId;
+	public String getImageUrl() {
+		return imageUrl;
 	}
 
-	public void setImageId(Long imageId) {
-		this.imageId = imageId;
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public Long getUserId() {
@@ -110,7 +115,7 @@ public class User extends EntityObject implements UserDetails {
 	
 
 	public void setAcountNonExpired(boolean isAcountNonExpired) {
-		this.isAcountNonExpired = isAcountNonExpired;
+		this.isAccountNonExpired = isAcountNonExpired;
 	}
 
 	public void setAccountNonLocked(boolean isAccountNonLocked) {
@@ -137,7 +142,7 @@ public class User extends EntityObject implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return this.isAcountNonExpired;
+		return this.isAccountNonExpired;
 	}
 
 	@Override

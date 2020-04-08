@@ -45,8 +45,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					"/swagger-resources/**",
 					"/configuration/security",
 					"/documentation/swagger-ui.html",
-					"/webjars/**");
-		webSecurity.ignoring().antMatchers(HttpMethod.POST, "/api/user");
+					"/webjars/**",
+					"/api/user/login",
+					"/api/user",
+					"/api/user/simpleDetails/**");
+		//webSecurity.ignoring().antMatchers(HttpMethod.POST, "/api/user");
+		
 	}
 	
 	@Override

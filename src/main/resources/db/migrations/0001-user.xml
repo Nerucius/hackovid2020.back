@@ -15,12 +15,12 @@
 			<column name="last_name" type="varchar(64)"></column>
 			<column name="mail" type="varchar(64)"></column>
 			<column name="password" type="varchar(64)"></column>
-			<column name="image_id" type="bigint"></column>
+			<column name="image_url" type="varchar(64)"></column>
 			<column name="token" type="varchar(64)"></column>
-			<column name="is_account_non_expired" type="boolean"></column>
-			<column name="is_account_non_locked" type="boolean"></column>
-			<column name="is_credentials_non_expired" type="boolean"></column>
-			<column name="is_enabled" type="boolean"></column>
+			<column name="is_account_non_expired" type="BOOLEAN"></column>
+			<column name="is_account_non_locked" type="BOOLEAN"></column>
+			<column name="is_credentials_non_expired" type="BOOLEAN"></column>
+			<column name="is_enabled" type="BOOLEAN"></column>
 		</createTable>
 	
 	</changeSet>
