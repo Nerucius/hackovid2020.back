@@ -3,6 +3,7 @@ package hackovid2020.back.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import hackovid2020.back.dao.Shop;
 import hackovid2020.back.repository.CatalogImageRepository;
 import hackovid2020.back.repository.CategoryRepository;
 import hackovid2020.back.repository.ShopRepository;
@@ -19,6 +20,8 @@ public class ShopService {
 	@Autowired
 	private CatalogImageRepository catalogImageRepository;
 	
-	
+	public Shop save(Shop shop) {
+		return shopRepository.save(shop);
+	}
 
 }
