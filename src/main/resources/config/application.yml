@@ -16,8 +16,8 @@ spring:
     name: hackovid2020.back
   
   profiles:
-    active: development
-    #active: deployment
+    #active: development
+    active: deployment
       
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
@@ -94,6 +94,16 @@ spring:
   datasource:
     name: development
     url: jdbc:mariadb://localhost:3306/db
+    
+---
+spring:
+  profiles: deployment
+  datasource:
+    name: development
+    url: jdbc:mariadb://mariadb:3306/db
+  
+  liquibase:
+    url: jdbc:mariadb://mariadb:3306/db
 
 
   
