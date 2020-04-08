@@ -6,7 +6,7 @@ VOLUME /tmp
 
 EXPOSE 8080
 
-ARG JAR_FILE=target/back.jar
+ARG JAR_FILE=dist/back.jar
 
 COPY ${JAR_FILE} app.jar
 
