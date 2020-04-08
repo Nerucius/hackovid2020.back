@@ -16,8 +16,8 @@ spring:
     name: hackovid2020.back
   
   profiles:
-    #active: development
-    active: deployment
+    active: development
+   # active: deployment
       
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver

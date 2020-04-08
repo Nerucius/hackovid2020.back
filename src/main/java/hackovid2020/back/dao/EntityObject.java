@@ -2,8 +2,6 @@ package hackovid2020.back.dao;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-
 public class EntityObject {
 
 	private Date createdAt;
