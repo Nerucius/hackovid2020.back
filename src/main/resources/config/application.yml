@@ -21,7 +21,7 @@ spring:
       
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://mariadb:3306/db
+    url: jdbc:mariadb://localhost:3306/db
     username: root
     password: root
     type: com.zaxxer.hikari.HikariDataSource
@@ -47,10 +47,26 @@ spring:
       hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect
       hibernate.jdbc.time_zone: UTC
       hibernate.jdbc.lob.non_contextual_creation: true
+      hibernate.id.new_generator_mappings: true
+      hibernate.id.optimizer.pooled.preferred: pooled
+      hibernate.discriminator.ignore_explicit_for_joined: false
+      hibernate.implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+      hibernate.physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
       hibernate.connection.useUnicode: true
       hibernate.connection.characterEncoding: UTF-8
       hibernate.connection.charSet: UTF-8
-      
+      hibernate.show_sql: false
+      hibernate.format_sql: false
+      hibernate.use_sql_comments: false
+      hibernate.generate_statistics: false
+      hibernate.jdbc.batch_size: 10
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+      hibernate.jdbc.batch_versioned_data: true
+      hibernate.globally_quoted_identifiers: true
+
+
+
   jackson:
     serialization:
       write-dates-as-timestamps: false
@@ -61,12 +77,12 @@ spring:
 # ------------------------ END OF SPRING CONFIGURATION -----------------------------
 
 # ------------------------ START OF LIQUIBASE CONFIGURATION ------------------------
-liquibase:
-  default-schema: development
-  url: jdbc:mariadb://mariadb:3306/db
-  change-log: classpath:db/db-master-changelog.xml
-  user: root
-  password: root
+  liquibase:
+    default-schema: db
+    url: jdbc:mariadb://localhost:3306/db
+    change-log: classpath:db/db-master-changelog.xml
+    user: root
+    password: root
 
 # ------------------------ END OF LIQUIBASE CONFIGURATION --------------------------
  

@@ -9,20 +9,20 @@ import hackovid2020.back.dao.User;
 
 public class UserCreationRequest {
 	
-	@JsonProperty
 	private String firstName;
-	
-	@JsonProperty
+
 	private String lastName;
 	
-	@JsonProperty
 	private String mail;
 	
-	@JsonProperty
 	private String password;
 
 	@JsonCreator
-	private UserCreationRequest(String firstName, String lastName, String mail, String password) {
+	private UserCreationRequest(
+			@JsonProperty("firstName") String firstName,
+			@JsonProperty("lastName") String lastName,
+			@JsonProperty("mail") String mail,
+			@JsonProperty("password") String password) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.mail = mail;

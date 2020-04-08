@@ -40,6 +40,18 @@
 	        <groupId>org.springframework.boot</groupId>
 	        <artifactId>spring-boot-starter-security</artifactId>
 	    </dependency>
+	    
+	    <!-- spring-boot-starter-jdbc -->
+	    <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+	    
+		<!-- HikariCP -->
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+		</dependency>
         
         <!-- spring-boot-test -->
         <dependency>
@@ -66,8 +78,7 @@
         <dependency>
 	        <groupId>org.apache.commons</groupId>
 	        <artifactId>commons-lang3</artifactId>
-	        <version>3.8.1</version>
-	    </dependency>
+	        </dependency>
         
         <!-- springfox-swagger2 -->
 		<dependency>
@@ -83,18 +94,17 @@
 			<version>2.8.0</version>
 		</dependency>
 		
+		<!-- liquibase-core -->
+		<dependency> 
+			<groupId>org.liquibase</groupId> 
+			<artifactId>liquibase-core</artifactId> 
+ 		</dependency>
+		
 		<!-- mariadb-java-client -->
 		<dependency>
 		    <groupId>org.mariadb.jdbc</groupId>
 		    <artifactId>mariadb-java-client</artifactId>
-		</dependency>
-
-		
-		<!-- liquibase-core -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.liquibase</groupId> -->
-<!-- 			<artifactId>liquibase-core</artifactId> -->
-<!-- 		</dependency> -->
+		</dependency> 
         
     </dependencies>
     
@@ -115,7 +125,6 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
-            
         </plugins>
     </build>
 </project>

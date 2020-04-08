@@ -29,7 +29,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping
+	@PostMapping(produces=APPLICATION_JSON_UTF8_VALUE, consumes=APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	@ApiOperation(value = "Creates a new user.")
 	@Transactional
