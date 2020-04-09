@@ -20,8 +20,13 @@ services:
       - MYSQL_USER=root
       - MYSQL_PASSWORD=root
       - MYSQL_DATABASE=db
+    volumes:
+      - db_files:/var/lib/mysql
     networks:
       - backend
+      
+volumes:
+  db_files:
       
 networks:
   backend:
