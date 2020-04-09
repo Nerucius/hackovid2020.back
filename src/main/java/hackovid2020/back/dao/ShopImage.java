@@ -12,11 +12,11 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-@Entity(name="catalog_image")
-public class CatalogImage extends EntityObject {
+@Entity(name="shop_image")
+public class ShopImage extends EntityObject {
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long catalogImageId;
+	private Long shopImageId;
 	
 	@ManyToOne (fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.CASCADE)
@@ -24,14 +24,14 @@ public class CatalogImage extends EntityObject {
 	
 	private String imageUrl;
 	
-	private CatalogImage(Shop shop, String imageUrl, Date createdAt, Date modifiedAt) {
+	private ShopImage(Shop shop, String imageUrl, Date createdAt, Date modifiedAt) {
 		super(createdAt, modifiedAt);
 		this.shop = shop;
 		this.imageUrl = imageUrl;
 	}
 
-	public static CatalogImage createCatalogImage(Shop shop, String imageUrl, Date createdAt, Date modifiedAt) {
-		return new CatalogImage(shop, imageUrl, createdAt, modifiedAt);
+	public static ShopImage createCatalogImage(Shop shop, String imageUrl, Date createdAt, Date modifiedAt) {
+		return new ShopImage(shop, imageUrl, createdAt, modifiedAt);
 	}
 
 	public Shop getShop() {
@@ -50,8 +50,8 @@ public class CatalogImage extends EntityObject {
 		this.imageUrl = imageUrl;
 	}
 
-	public Long getCatalogImageId() {
-		return catalogImageId;
+	public Long getShopImageId() {
+		return shopImageId;
 	}
 	
 }

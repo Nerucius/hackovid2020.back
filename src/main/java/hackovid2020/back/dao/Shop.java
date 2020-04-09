@@ -21,21 +21,18 @@ public class Shop extends EntityObject {
 	
 	@OneToOne (fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	private User owner;
+	private User user;
 	
 	private String coverUrl;
 	
-	private Point2D location;
-	
-	private Shop(String coverId, Point2D location, User owner, Date createdAt, Date modifiedAt) {
+	private Shop(String coverId, User owner, Date createdAt, Date modifiedAt) {
 		super(createdAt, modifiedAt);
 		this.coverUrl = coverId;
-		this.location = location;
-		this.owner = owner;
+		this.user = owner;
 	}
 	
-	public static Shop createShop(String coverId, Point2D location, User owner, Date createdAt, Date modifiedAt) {
-		return new Shop(coverId, location, owner, createdAt, modifiedAt);
+	public static Shop createShop(String coverId, User owner, Date createdAt, Date modifiedAt) {
+		return new Shop(coverId,  owner, createdAt, modifiedAt);
 	}
 
 	public Long getShopId() {
@@ -46,20 +43,12 @@ public class Shop extends EntityObject {
 		this.shopId = shopId;
 	}
 
-	public User getOwner() {
-		return owner;
+	public User getUser() {
+		return user;
 	}
 
-	public void serOwner(User owner) {
-		this.owner = owner;
-	}
-
-	public Point2D getLocation() {
-		return location;
-	}
-
-	public void setLocation(Point2D location) {
-		this.location = location;
+	public void setUser(User owner) {
+		this.user = owner;
 	}
 
 	public String getCoverId() {

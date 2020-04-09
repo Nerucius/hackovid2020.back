@@ -21,6 +21,8 @@
 			<column name="is_account_non_locked" type="BOOLEAN"></column>
 			<column name="is_credentials_non_expired" type="BOOLEAN"></column>
 			<column name="is_enabled" type="BOOLEAN"></column>
+			<column name="created_at" type="date"/>
+			<column name="modified_at" type="date"/>
 		</createTable>
 	
 	</changeSet>

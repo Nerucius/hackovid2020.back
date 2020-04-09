@@ -14,7 +14,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import hackovid2020.back.dao.support.CategoriesEnum;
 
-@Entity(name="category")
+@Entity(name="shop_category")
 public class Category extends EntityObject {
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -24,12 +24,12 @@ public class Category extends EntityObject {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Shop shop;
 	
-	private CategoriesEnum categoryEnum;
+	private CategoriesEnum category;
 	
-	private Category(Shop shop, CategoriesEnum categoryEnum, Date createdAt, Date modifiedAt) {
+	private Category(Shop shop, CategoriesEnum category, Date createdAt, Date modifiedAt) {
 		super(createdAt, modifiedAt);
 		this.shop = shop;
-		this.categoryEnum = categoryEnum;
+		this.category = category;
 	}
 	
 	public static Category createCategory(Shop shop, CategoriesEnum categoryEnum, Date createdAt, Date modifiedAt) {
@@ -45,11 +45,11 @@ public class Category extends EntityObject {
 	}
 
 	public CategoriesEnum getCategoryEnum() {
-		return categoryEnum;
+		return category;
 	}
 
-	public void setCategoryEnum(CategoriesEnum categoryEnum) {
-		this.categoryEnum = categoryEnum;
+	public void setCategoryEnum(CategoriesEnum category) {
+		this.category = category;
 	}
 
 	public Long getCategoryId() {
