@@ -5,16 +5,15 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import hackovid2020.back.Constants;
 import hackovid2020.back.dao.Shop;
 import hackovid2020.back.dao.User;
-import hackovid2020.back.utils.MD5Util;
+import hackovid2020.back.dto.file.FileRequest;
 
 public class ShopCreationRequest {
 	
 	private Long ownerId;
 	
-	private String coverUrl;
+	private FileRequest coverImage;
 	
 	private float latitude;
 	
@@ -24,27 +23,27 @@ public class ShopCreationRequest {
 	
 	private List<String> shopCategories;
 	
-	private List<String> shopImages;
+	private List<Long> shopImageIds;
 	
 	private ShopCreationRequest(
 			@JsonProperty("ownerId") Long ownerId,
-			@JsonProperty("coverUrl") String coverUrl,
+			@JsonProperty("coverImage") FileRequest coverImage,
 			@JsonProperty("latitude") float latitude,
 			@JsonProperty("longitude") float longitude,
 			@JsonProperty("streetName") String streetName,
 			@JsonProperty("shopCategories") List<String> shopCategories,
-			@JsonProperty("shopImages") List<String> shopImages) {
+			@JsonProperty("shopImageIds") List<Long> shopImages) {
 		this.ownerId = ownerId;
-		this.coverUrl = Constants.GRAVATAR + MD5Util.md5Hex(coverUrl);
+		this.coverImage = coverImage;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.streetName = streetName;
 		this.shopCategories = shopCategories;
-		this.shopImages = shopImages;
+		this.shopImageIds = shopImages;
 	}
 	
 	public Shop toShop(User owner) {
-		return Shop.createShop(coverUrl, owner, Calendar.getInstance().getTime(),
+		return Shop.createShop(null, owner, null , Calendar.getInstance().getTime(),
 				Calendar.getInstance().getTime());
 	}
 
@@ -52,16 +51,16 @@ public class ShopCreationRequest {
 		return ownerId;
 	}
 
-	public String getCoverUrl() {
-		return coverUrl;
+	public FileRequest getCoverImage() {
+		return coverImage;
 	}
 
 	public List<String> getShopCategories() {
 		return shopCategories;
 	}
 
-	public List<String> getShopImages() {
-		return shopImages;
+	public List<Long> getShopImageIds() {
+		return shopImageIds;
 	}
 
 	public float getLatitude() {

@@ -8,9 +8,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import hackovid2020.back.dao.Category;
+import hackovid2020.back.dao.File;
 import hackovid2020.back.dao.Shop;
-import hackovid2020.back.dao.ShopImage;
 import hackovid2020.back.dao.ShopLocation;
+import hackovid2020.back.dto.file.FileResponse;
 import hackovid2020.back.dto.user.UserDetailsResponse;
 
 public class ShopDetailsResponse {
@@ -19,7 +20,7 @@ public class ShopDetailsResponse {
 	private Long shopId;
 	
 	@JsonProperty
-	private String coverUrl;
+	private FileResponse coverImage;
 	
 	@JsonProperty
 	private UserDetailsResponse userDetailsResponse;
@@ -34,16 +35,16 @@ public class ShopDetailsResponse {
 	private Date modifiedAt;
 	
 	@JsonProperty
-	private List<ShopImageResponse> shopImages;
+	private List<FileResponse> shopImages;
 	
 	@JsonProperty
 	private List<ShopCategoryResponse> shopCategories;
 	
 	@JsonCreator
-	private ShopDetailsResponse(Long shopId, String coverUrl, UserDetailsResponse userDetailsResponse, List<ShopImageResponse> shopImages,
+	private ShopDetailsResponse(Long shopId, FileResponse coverImage, UserDetailsResponse userDetailsResponse, List<FileResponse> shopImages,
 			List<ShopCategoryResponse> shopCategories, ShopLocationResponse shopLocationResponse, Date createdAt, Date modifiedAt) {
 		this.shopId = shopId;
-		this.coverUrl = coverUrl;
+		this.coverImage = coverImage;
 		this.userDetailsResponse = userDetailsResponse;
 		this.shopLocationResponse = shopLocationResponse;
 		this.shopImages = shopImages;
@@ -53,12 +54,12 @@ public class ShopDetailsResponse {
 	}
 	
 	public static ShopDetailsResponse ofShop(Shop shop, UserDetailsResponse userDetailsResponse, 
-			List<ShopImage> shopImages, List<Category> shopCategories, ShopLocation shopLocation) {
-		List<ShopImageResponse> shopImageResponseList = shopImages.stream()
-				.map(ShopImageResponse::ofShopImage).collect(Collectors.toList());
+			List<File> shopImages, List<Category> shopCategories, ShopLocation shopLocation) {
+		List<FileResponse> shopImageResponseList = shopImages.stream()
+				.map(FileResponse::ofFile).collect(Collectors.toList());
 		List<ShopCategoryResponse> shopCategoriesResponseList = shopCategories.stream()
 				.map(ShopCategoryResponse::ofCategory).collect(Collectors.toList());
-		return new ShopDetailsResponse(shop.getShopId(), shop.getCoverId(), userDetailsResponse, 
+		return new ShopDetailsResponse(shop.getShopId(), FileResponse.ofFile(shop.getCoverImage()), userDetailsResponse, 
 				shopImageResponseList, shopCategoriesResponseList, ShopLocationResponse.ofShopLocation(shopLocation),
 				shop.getCreatedAt(), shop.getModifiedAt());
 	}

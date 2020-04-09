@@ -1,12 +1,14 @@
 package hackovid2020.back.dao;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.OnDelete;
@@ -22,38 +24,50 @@ public class Shop extends EntityObject {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 	
-	private String coverUrl;
+	@OneToOne (fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private File coverImage;
 	
-	private Shop(String coverId, User owner, Date createdAt, Date modifiedAt) {
+	@OneToMany
+	private Set<File> shopImages;
+	
+	private Shop(File coverImage, User user, Set<File> shopImages, Date createdAt, Date modifiedAt) {
 		super(createdAt, modifiedAt);
-		this.coverUrl = coverId;
-		this.user = owner;
+		this.coverImage = coverImage;
+		this.user = user;
+		this.shopImages = shopImages;
 	}
 	
-	public static Shop createShop(String coverId, User owner, Date createdAt, Date modifiedAt) {
-		return new Shop(coverId,  owner, createdAt, modifiedAt);
+	public static Shop createShop(File coverImage, User user, Set<File> shopImages, Date createdAt, Date modifiedAt) {
+		return new Shop(coverImage,  user, shopImages, createdAt, modifiedAt);
 	}
 
 	public Long getShopId() {
 		return shopId;
 	}
 
-	public void setShopId(Long shopId) {
-		this.shopId = shopId;
-	}
-
 	public User getUser() {
 		return user;
 	}
 
-	public void setUser(User owner) {
-		this.user = owner;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public String getCoverId() {
-		return coverUrl;
+	public File getCoverImage() {
+		return coverImage;
 	}
 
-	
+	public void setCoverImage(File coverImage) {
+		this.coverImage = coverImage;
+	}
+
+	public Set<File> getShopImages() {
+		return shopImages;
+	}
+
+	public void setShopImages(Set<File> shopImages) {
+		this.shopImages = shopImages;
+	}
 	
 }

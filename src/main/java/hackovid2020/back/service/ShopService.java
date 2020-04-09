@@ -8,17 +8,16 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import hackovid2020.back.Constants;
 import hackovid2020.back.dao.Category;
+import hackovid2020.back.dao.File;
 import hackovid2020.back.dao.Shop;
-import hackovid2020.back.dao.ShopImage;
 import hackovid2020.back.dao.ShopLocation;
 import hackovid2020.back.dao.support.CategoriesEnum;
-import hackovid2020.back.repository.ShopImageRepository;
+import hackovid2020.back.dto.file.FileRequest;
 import hackovid2020.back.repository.ShopLocationRepository;
 import hackovid2020.back.repository.CategoryRepository;
+import hackovid2020.back.repository.FileRepository;
 import hackovid2020.back.repository.ShopRepository;
-import hackovid2020.back.utils.MD5Util;
 
 @Service
 public class ShopService {
@@ -30,10 +29,10 @@ public class ShopService {
 	private CategoryRepository categoryRepository;
 	
 	@Autowired
-	private ShopImageRepository shopImageRepository;
+	private ShopLocationRepository shopLocationRepository;
 	
 	@Autowired
-	private ShopLocationRepository shopLocationRepository;
+	private FileRepository fileRepository;
 	
 	public Shop saveShop(Shop shop) {
 		return shopRepository.save(shop);
@@ -46,15 +45,13 @@ public class ShopService {
 		return categoryRepository.saveAll(shopCategories);
 	}
 	
-	public List<ShopImage> saveShopImages(List<String> shopImagesString, Shop shop) {
-		List<ShopImage> shopImages = shopImagesString.stream()
-				.map(x -> ShopImage.createCatalogImage(shop, Constants.GRAVATAR + MD5Util.md5Hex(x),
-						shop.getCreatedAt(), shop.getModifiedAt())).collect(Collectors.toList());
-		return shopImageRepository.saveAll(shopImages);
+	public List<File> saveShopImages(List<FileRequest> shopImageRequests, Shop shop) {
+		List<File> shopImages = shopImageRequests.stream().map(x -> x.toFile(shop)).collect(Collectors.toList());
+		return fileRepository.saveAll(shopImages);
 	}
 	
-	public List<ShopImage> findAllShopImages(Shop shop) {
-		return shopImageRepository.findByShopShopId(shop.getShopId());
+	public List<File> findAllShopImages(Shop shop) {
+		return fileRepository.findByShopShopId(shop.getShopId());
 	}
 	
 	public List<Category> findAllShopCategories(Shop shop) {
@@ -74,5 +71,7 @@ public class ShopService {
 	public ShopLocation findShopLocation(Shop shop) {
 		return shopLocationRepository.findByShopShopId(shop.getShopId());
 	}
+
+	
 
 }

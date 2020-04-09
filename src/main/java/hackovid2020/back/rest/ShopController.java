@@ -15,13 +15,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import hackovid2020.back.dao.Category;
+import hackovid2020.back.dao.File;
 import hackovid2020.back.dao.Shop;
-import hackovid2020.back.dao.ShopImage;
 import hackovid2020.back.dao.ShopLocation;
 import hackovid2020.back.dao.User;
 import hackovid2020.back.dto.shop.ShopCreationRequest;
 import hackovid2020.back.dto.shop.ShopDetailsResponse;
 import hackovid2020.back.dto.user.UserDetailsResponse;
+import hackovid2020.back.service.FileService;
 import hackovid2020.back.service.ShopService;
 import hackovid2020.back.service.UserService;
 import io.swagger.annotations.Api;
@@ -38,6 +39,9 @@ public class ShopController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private FileService fileService;
+	
 	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	@ApiOperation(value = "Creates a new shop.")
@@ -46,7 +50,8 @@ public class ShopController {
 		User owner = userService.findById(request.getOwnerId());
 		Shop shop = shopService.saveShop(request.toShop(owner));
 		List<Category> shopCategories = shopService.saveShopCategories(request.getShopCategories(), shop);
-		List<ShopImage> shopImages = shopService.saveShopImages(request.getShopImages(), shop);
+		List<File> shopImages = fileService.findAllShopImages(request.getShopImageIds());
+		//List<ShopImage> shopImages = shopService.saveShopImages(request.getShopImages(), shop);
 		ShopLocation location = shopService.saveShopLocation(request.getLatitude(), request.getLongitude(),
 				request.getStreetName());
 		return ShopDetailsResponse.ofShop(shop, UserDetailsResponse.ofUser(owner),
@@ -59,11 +64,31 @@ public class ShopController {
 	@Transactional
 	public ShopDetailsResponse getShop(@PathVariable("id") Long id) {
 		Shop shop = shopService.findById(id);
-		List<ShopImage> shopImages = shopService.findAllShopImages(shop);
+		List<File> shopImages = fileService.findAllShopImages(shop.getShopId());
 		List<Category> shopCategories = shopService.findAllShopCategories(shop);
 		ShopLocation location = shopService.findShopLocation(shop);
 		return ShopDetailsResponse.ofShop(shop, UserDetailsResponse.ofUser(shop.getUser()),
 				shopImages, shopCategories, location);
+	}
+	
+	public void getShops() {
+		
+	}
+	
+	public void updateShop() {
+		
+	}
+	
+	public void deleteShop() {
+		
+	}
+	
+	public void updateShopCategories() {
+		
+	}
+	
+	public void updateShopImages() {
+		
 	}
 	
 }
