@@ -1,6 +1,5 @@
 package hackovid2020.back.dto.shop;
 
-import java.awt.geom.Point2D;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;

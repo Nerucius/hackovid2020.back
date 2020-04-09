@@ -1,6 +1,5 @@
 package hackovid2020.back.dao;
 
-import java.awt.geom.Point2D;
 import java.util.Date;
 
 import javax.persistence.Entity;

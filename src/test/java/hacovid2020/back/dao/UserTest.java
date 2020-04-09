@@ -2,8 +2,6 @@ package hacovid2020.back.dao;
 
 import java.util.Calendar;
 
-import javax.net.ssl.SSLEngineResult.Status;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

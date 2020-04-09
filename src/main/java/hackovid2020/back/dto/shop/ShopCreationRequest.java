@@ -1,15 +1,12 @@
 package hackovid2020.back.dto.shop;
 
-import java.awt.geom.Point2D;
 import java.util.Calendar;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import hackovid2020.back.Constants;
-import hackovid2020.back.dao.Category;
 import hackovid2020.back.dao.Shop;
-import hackovid2020.back.dao.ShopImage;
 import hackovid2020.back.dao.User;
 import hackovid2020.back.utils.MD5Util;
 
