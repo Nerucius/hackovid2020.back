@@ -1,14 +1,13 @@
 package hackovid2020.back.service;
 
-import java.util.Calendar;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import hackovid2020.back.dao.Category;
 import hackovid2020.back.dao.support.CategoriesEnum;
 import hackovid2020.back.repository.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
+import java.util.List;
 
 @Service
 public class CategoryService {

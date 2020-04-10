@@ -1,17 +1,18 @@
 package hackovid2020.back.service;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import hackovid2020.back.Constants;
 import hackovid2020.back.dao.User;
 import hackovid2020.back.repository.UserRepository;
 import hackovid2020.back.utils.MD5Util;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Calendar;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -19,16 +20,16 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public String login(String mail, String password) {
+	public String login(String mail, String password) throws ResponseStatusException {
 		Optional<User> oUser = userRepository.findUserByMailAndPassword(mail, password);
 		if (oUser.isPresent()) {
 			String token = UUID.randomUUID().toString();
 			User user = oUser.get();
 			user.setToken(token);
-			userRepository.save(user);
+			save(user);
 			return token;
 		}
-		return "";
+		throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 	}
 	
 	public Optional<User> findByToken(String token) {
@@ -41,7 +42,7 @@ public class UserService {
 	}
 	
 	public User save(User user) {
-		return userRepository.save(user);
+		return userRepository.saveAndFlush(user);
 	}
 	
 	public User update(Long id, String name, String lastName, String mail, String password, String imageUrl) {
@@ -53,7 +54,7 @@ public class UserService {
 		user.setPassword(password);
 		user.setImageUrl(Constants.GRAVATAR + MD5Util.md5Hex(imageUrl));
 		user.setModifiedAt(Calendar.getInstance().getTime());
-		userRepository.save(user);
+		save(user);
 		return user;
 	}
 

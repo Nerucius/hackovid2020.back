@@ -1,20 +1,19 @@
 package hackovid2020.back.service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import hackovid2020.back.dao.Category;
 import hackovid2020.back.dao.File;
 import hackovid2020.back.dao.Shop;
 import hackovid2020.back.dao.ShopLocation;
-import hackovid2020.back.repository.ShopLocationRepository;
 import hackovid2020.back.repository.CategoryRepository;
 import hackovid2020.back.repository.FileRepository;
+import hackovid2020.back.repository.ShopLocationRepository;
 import hackovid2020.back.repository.ShopRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class ShopService {

@@ -1,19 +1,17 @@
 package hackovid2020.back.dto.shop;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import hackovid2020.back.dao.Category;
 import hackovid2020.back.dao.File;
 import hackovid2020.back.dao.Shop;
 import hackovid2020.back.dao.ShopLocation;
 import hackovid2020.back.dto.file.FileResponse;
 import hackovid2020.back.dto.user.UserDetailsResponse;
+
+import java.util.Date;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ShopDetailsResponse {
 	
@@ -43,7 +41,7 @@ public class ShopDetailsResponse {
 	
 	@JsonCreator
 	private ShopDetailsResponse(Long shopId, FileResponse coverImage, UserDetailsResponse userDetailsResponse, Set<FileResponse> shopImages,
-			Set<ShopCategoryResponse> shopCategories, ShopLocationResponse shopLocationResponse, Date createdAt, Date modifiedAt) {
+                                Set<ShopCategoryResponse> shopCategories, ShopLocationResponse shopLocationResponse, Date createdAt, Date modifiedAt) {
 		this.shopId = shopId;
 		this.coverImage = coverImage;
 		this.userDetailsResponse = userDetailsResponse;
@@ -54,13 +52,13 @@ public class ShopDetailsResponse {
 		this.modifiedAt = modifiedAt;
 	}
 	
-	public static ShopDetailsResponse ofShop(Shop shop, UserDetailsResponse userDetailsResponse, 
-			Set<File> shopImages, Set<Category> shopCategories, ShopLocation shopLocation) {
+	public static ShopDetailsResponse ofShop(Shop shop, UserDetailsResponse userDetailsResponse,
+                                             Set<File> shopImages, Set<Category> shopCategories, ShopLocation shopLocation) {
 		Set<FileResponse> shopImageResponseList = shopImages.stream()
 				.map(FileResponse::ofFile).collect(Collectors.toSet());
 		Set<ShopCategoryResponse> shopCategoriesResponseList = shopCategories.stream()
 				.map(ShopCategoryResponse::ofCategory).collect(Collectors.toSet());
-		return new ShopDetailsResponse(shop.getShopId(), FileResponse.ofFile(shop.getCoverImage()), userDetailsResponse, 
+		return new ShopDetailsResponse(shop.getShopId(), FileResponse.ofFile(shop.getCoverImage()), userDetailsResponse,
 				shopImageResponseList, shopCategoriesResponseList, ShopLocationResponse.ofShopLocation(shopLocation),
 				shop.getCreatedAt(), shop.getModifiedAt());
 	}

@@ -1,11 +1,10 @@
 package hackovid2020.back.dto.shop;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import hackovid2020.back.dao.ShopLocation;
+
+import java.util.Date;
 
 public class ShopLocationResponse {
 	
@@ -29,7 +28,7 @@ public class ShopLocationResponse {
 	
 	@JsonCreator
 	private ShopLocationResponse(Long shopLocationId, float latitude, float longitude, String streetName,
-			Date createdAt, Date modifiedAt) {
+                                 Date createdAt, Date modifiedAt) {
 		this.shopLocationId = shopLocationId;
 		this.latitude = latitude;
 		this.longitued = longitude;

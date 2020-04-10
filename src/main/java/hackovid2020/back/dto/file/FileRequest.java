@@ -1,13 +1,11 @@
 package hackovid2020.back.dto.file;
 
-import java.util.Calendar;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import hackovid2020.back.dao.File;
-import hackovid2020.back.dao.Shop;
 import hackovid2020.back.dao.support.FileType;
+
+import java.util.Calendar;
 
 public class FileRequest {
 	

@@ -1,17 +1,11 @@
 package hackovid2020.back.dao;
 
-import java.util.Date;
-import java.util.Set;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.Set;
 
 @Entity(name="product")
 public class Product extends EntityObject {
@@ -41,7 +35,7 @@ public class Product extends EntityObject {
 	}
 	
 	public Product createProduct(String name, String description, float price, Shop shop, Set<File> productImages,
-			Date createdAt, Date modifiedAt) {
+                                 Date createdAt, Date modifiedAt) {
 		return new Product(name, description, price, shop, productImages, createdAt, modifiedAt);
 	}
 

@@ -1,19 +1,11 @@
 package hackovid2020.back.dao;
 
-import java.util.Date;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-
+import hackovid2020.back.dao.support.CategoriesEnum;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import hackovid2020.back.dao.support.CategoriesEnum;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity(name="shop_category")
 public class Category extends EntityObject {
@@ -38,7 +30,7 @@ public class Category extends EntityObject {
 	}
 	
 	public static Category createCategory(Shop shop, CategoriesEnum categoryEnum, Category parentCategory,
-			Date createdAt, Date modifiedAt) {
+                                          Date createdAt, Date modifiedAt) {
 		return new Category(shop, categoryEnum, parentCategory, createdAt, modifiedAt);
 	}
 

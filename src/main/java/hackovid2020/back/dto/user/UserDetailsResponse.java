@@ -1,11 +1,10 @@
 package hackovid2020.back.dto.user;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import hackovid2020.back.dao.User;
+
+import java.util.Date;
 
 public class UserDetailsResponse {
 	
@@ -20,15 +19,15 @@ public class UserDetailsResponse {
 	
 	@JsonProperty
 	private String mail;
-	
+
 	@JsonProperty
-	private String password;
+	private String token;
 	
 	@JsonProperty
 	private String imageUrl;
 	
 	@JsonProperty
-	private boolean isAcountNonExpired;
+	private boolean isAccountNonExpired;
 	
 	@JsonProperty
 	private boolean isAccountNonLocked;
@@ -46,16 +45,16 @@ public class UserDetailsResponse {
 	private Date modifiedAt;
 	
 	@JsonCreator
-	private UserDetailsResponse(Long userId, String firstName, String lastName, String mail, String password, String imageUrl,
+	private UserDetailsResponse(Long userId, String firstName, String lastName, String mail, String token, String imageUrl,
 			boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled,
 			Date createdAt, Date modifiedAt) {
 		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.mail = mail;
-		this.password = password;
+		this.token = token;
 		this.imageUrl = imageUrl;
-		this.isAcountNonExpired = isAccountNonExpired;
+		this.isAccountNonExpired = isAccountNonExpired;
 		this.isAccountNonLocked = isAccountNonLocked;
 		this.isCredentialsNonExpired = isCredentialsNonExpired;
 		this.isEnabled = isEnabled;
@@ -64,7 +63,7 @@ public class UserDetailsResponse {
 	}
 	
 	public static UserDetailsResponse ofUser(User user) {
-		return new UserDetailsResponse(user.getUserId(), user.getFirstName(), user.getLastName(), user.getMail(), user.getPassword(), 
+		return new UserDetailsResponse(user.getUserId(), user.getFirstName(), user.getLastName(), user.getMail(), user.getToken(),
 				user.getImageUrl(), user.isAccountNonExpired(), user.isAccountNonLocked(), user.isCredentialsNonExpired(),
 				user.isEnabled(), user.getCreatedAt(), user.getModifiedAt());
 	}

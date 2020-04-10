@@ -1,13 +1,12 @@
 package hackovid2020.back.dto.category;
 
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import hackovid2020.back.dao.Category;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CategoryResponseList {
 

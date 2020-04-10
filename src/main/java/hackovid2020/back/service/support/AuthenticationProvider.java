@@ -1,7 +1,6 @@
 package hackovid2020.back.service.support;
 
-import java.util.Optional;
-
+import hackovid2020.back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
@@ -10,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import hackovid2020.back.service.UserService;
+import java.util.Optional;
 
 @Component
 public class AuthenticationProvider  extends AbstractUserDetailsAuthenticationProvider {

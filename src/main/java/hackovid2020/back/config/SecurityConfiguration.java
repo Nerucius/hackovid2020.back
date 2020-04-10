@@ -1,5 +1,7 @@
 package hackovid2020.back.config;
 
+import hackovid2020.back.service.support.AuthenticationFilter;
+import hackovid2020.back.service.support.AuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -15,14 +17,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import hackovid2020.back.service.support.AuthenticationFilter;
-import hackovid2020.back.service.support.AuthenticationProvider;
-
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
-	private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher(
-			new AntPathRequestMatcher("/api/**"));
+	private static final RequestMatcher PROTECTED_URLS = new AntPathRequestMatcher("/api/**");
 	
 	AuthenticationProvider provider;
 

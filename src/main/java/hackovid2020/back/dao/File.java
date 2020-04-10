@@ -1,15 +1,9 @@
 package hackovid2020.back.dao;
 
-import java.util.Date;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 import hackovid2020.back.dao.support.FileType;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity(name="file")
 public class File extends EntityObject {

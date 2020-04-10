@@ -1,15 +1,14 @@
 package hackovid2020.back.dto.shop;
 
-import java.util.Calendar;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import hackovid2020.back.dao.Shop;
 import hackovid2020.back.dao.ShopLocation;
 import hackovid2020.back.dao.User;
 import hackovid2020.back.dto.file.FileRequest;
+
+import java.util.Calendar;
+import java.util.List;
 
 public class ShopCreationRequest {
 	

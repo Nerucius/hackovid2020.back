@@ -1,9 +1,9 @@
 package hackovid2020.back.dto.product;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 
 public class ProductCreationRequest {
 

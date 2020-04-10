@@ -1,12 +1,11 @@
 package hackovid2020.back.dto.category;
 
-import java.util.Calendar;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import hackovid2020.back.dao.Category;
 import hackovid2020.back.dao.support.CategoriesEnum;
+
+import java.util.Calendar;
 
 public class CategoryRequest {
 	

@@ -1,16 +1,10 @@
 package hackovid2020.back.dao;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import java.util.Date;
 
 @Entity(name="shop_location")
 public class ShopLocation extends EntityObject {
@@ -32,7 +26,7 @@ public class ShopLocation extends EntityObject {
 	}
 	
 	public static ShopLocation createShopLocation(float latitude, float longitude, String streetName,
-			Date createdAt, Date modifiedAt) {
+                                                  Date createdAt, Date modifiedAt) {
 		return new ShopLocation(latitude, longitude, streetName, createdAt, modifiedAt);
 	}
 
