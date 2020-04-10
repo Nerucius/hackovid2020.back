@@ -2,6 +2,7 @@ package hacovid2020.back.dao;
 
 import java.util.Calendar;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import hackovid2020.back.utils.MD5Util;
 @ContextConfiguration
 @Transactional
 @Commit
+@Ignore
 public class UserTest {
 	
 	@Autowired
