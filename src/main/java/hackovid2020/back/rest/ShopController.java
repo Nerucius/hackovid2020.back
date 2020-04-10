@@ -114,11 +114,24 @@ public class ShopController {
 	}
 	
 	public void updateShopCategories() {
-		
+		/* TODO A partir de un request recibe un Set<Long> (ids)
+		 * Se debe obtener el set de images que ahora mismo tiene asignadas la tienda. (TiendaId es clave foranea en image)
+		 * Comparar el set de ids asignado a la tienda, con el set de ids que viene por parámetro:
+		 *  - Se dejan en el set final las repetidas en ambos sets
+		 *  - Se añaden, las que estén en set 2, pero no en set 1
+		 *  - Se eliminan las que estén en set1, pero no en set 2
+		*/
 	}
 	
 	public void updateShopImages() {
-		
+		/* TODO A partir de un request recibe un Set<Long> (ids)
+		 * Se debe obtener el set de images que ahora mismo tiene asignadas la tienda. (TiendaId es clave foranea en image)
+		 * Comparar el set de ids asignado a la tienda, con el set de ids que viene por parámetro:
+		 *  - Se dejan en el set final las repetidas en ambos sets
+		 *  - Se añaden, las que estén en set 2, pero no en set 1
+		 *  - Se eliminan las que estén en set1, pero no en set 2
+		 *  [1, 3, 5] --> [1, 4, 5, 6] ----> [1, 4, 5, 6]
+		*/
 	}
 	
 }
