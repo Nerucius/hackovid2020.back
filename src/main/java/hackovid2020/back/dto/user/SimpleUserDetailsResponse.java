@@ -2,7 +2,6 @@ package hackovid2020.back.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import hackovid2020.back.dao.User;
 
 public class SimpleUserDetailsResponse {

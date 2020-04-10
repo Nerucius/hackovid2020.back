@@ -1,14 +1,14 @@
 package hackovid2020.back.service;
 
-import java.util.Calendar;
-import java.util.List;
-
+import hackovid2020.back.dao.File;
+import hackovid2020.back.dao.Shop;
+import hackovid2020.back.dao.support.FileType;
+import hackovid2020.back.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import hackovid2020.back.dao.File;
-import hackovid2020.back.dao.support.FileType;
-import hackovid2020.back.repository.FileRepository;
+import java.util.Calendar;
+import java.util.List;
 
 @Service
 public class FileService {
@@ -22,6 +22,10 @@ public class FileService {
 	
 	public File findFileById(Long id) {
 		return fileRepository.getOne(id);
+	}
+
+	public List<File> findAllShopImages(Long shopId) {
+		return fileRepository.findByShopShopId(shopId);
 	}
 
 	public File saveFile(File file) {
@@ -39,6 +43,12 @@ public class FileService {
 
 	public void deleteFile(Long id) {
 		fileRepository.deleteById(id);
+	}
+	
+	public void assignShopToFiles(List<Long> ids, Shop shop) {
+		List<File> files = fileRepository.findAllById(ids);
+		files.forEach(x -> x.setShop(shop));
+		fileRepository.saveAll(files);
 	}
 
 }

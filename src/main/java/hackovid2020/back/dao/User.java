@@ -1,15 +1,14 @@
 package hackovid2020.back.dao;
 
-import java.util.Collection;
-import java.util.Date;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import java.util.Collection;
+import java.util.Date;
 
 @SuppressWarnings("serial")
 @Entity(name="user")
@@ -55,8 +54,8 @@ public class User extends EntityObject implements UserDetails {
 		this.isEnabled = true;
 	}
 	
-	public static User createUser(String firstName, String lastName, String mail, 
-			 String password, String imageUrl, Date createdAt, Date modifiedAt) {
+	public static User createUser(String firstName, String lastName, String mail,
+                                  String password, String imageUrl, Date createdAt, Date modifiedAt) {
 		return new User(firstName, lastName, mail, password, imageUrl, createdAt, modifiedAt);
 	}
 

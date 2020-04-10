@@ -1,13 +1,9 @@
 package hackovid2020.back.dao;
 
-import java.util.Date;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 import hackovid2020.back.dao.support.FileType;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity(name="file")
 public class File extends EntityObject {
@@ -21,16 +17,21 @@ public class File extends EntityObject {
 	
 	private String url;
 	
+	@ManyToOne
+	@JoinColumn(name="shop_id", nullable=true)
+	private Shop shop;
 	
-	private File(String name, FileType fileType, String url, Date createdAt, Date modifiedAt) {
+	
+	private File(String name, FileType fileType, String url, Shop shop, Date createdAt, Date modifiedAt) {
 		super(createdAt, modifiedAt);
 		this.name = name;
 		this.fileType = fileType;
 		this.url = url;
+		this.shop = shop;
 	}
 	
-	public static File createFile(String name, FileType fileType, String url, Date createdAt, Date modifiedAt) {
-		return new File(name, fileType, url, createdAt, modifiedAt);
+	public static File createFile(String name, FileType fileType, String url, Shop shop, Date createdAt, Date modifiedAt) {
+		return new File(name, fileType, url, shop, createdAt, modifiedAt);
 	}
 
 	public String getName() {
@@ -60,4 +61,15 @@ public class File extends EntityObject {
 	public Long getFileId() {
 		return fileId;
 	}
+
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
+	}
+
+	
+	
 }

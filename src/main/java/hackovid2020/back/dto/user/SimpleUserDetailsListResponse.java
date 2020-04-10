@@ -1,12 +1,11 @@
 package hackovid2020.back.dto.user;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import hackovid2020.back.dao.User;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SimpleUserDetailsListResponse {
 	

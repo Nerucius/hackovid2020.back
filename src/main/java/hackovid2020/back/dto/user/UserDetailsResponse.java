@@ -1,11 +1,10 @@
 package hackovid2020.back.dto.user;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import hackovid2020.back.dao.User;
+
+import java.util.Date;
 
 public class UserDetailsResponse {
 	
