@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import hackovid2020.back.dao.File;
-import hackovid2020.back.dao.Shop;
 import hackovid2020.back.dao.support.FileType;
 
 public class FileRequest {
@@ -28,7 +27,7 @@ public class FileRequest {
 	}
 	
 	public File toFile() {
-		return File.createFile(name, fileType, url, null,
+		return File.createFile(name, fileType, url,
 				Calendar.getInstance().getTime(), Calendar.getInstance().getTime());
 	}
 

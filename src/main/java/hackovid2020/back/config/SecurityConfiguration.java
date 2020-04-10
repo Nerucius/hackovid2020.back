@@ -2,6 +2,7 @@ package hackovid2020.back.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,9 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.OrRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.security.web.util.matcher.*;
 
 import hackovid2020.back.service.support.AuthenticationFilter;
 import hackovid2020.back.service.support.AuthenticationProvider;
@@ -21,8 +20,7 @@ import hackovid2020.back.service.support.AuthenticationProvider;
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
-	private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher(
-			new AntPathRequestMatcher("/api/**"));
+	private static final RequestMatcher PROTECTED_URLS = new AntPathRequestMatcher("/api/**");
 	
 	AuthenticationProvider provider;
 
@@ -48,7 +46,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					"/api/user/login",
 					"/api/user",
 					"/api/user/simpleDetails/**");
-		//webSecurity.ignoring().antMatchers(HttpMethod.POST, "/api/user");
 		
 	}
 	

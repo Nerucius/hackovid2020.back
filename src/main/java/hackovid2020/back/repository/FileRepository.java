@@ -10,6 +10,4 @@ import hackovid2020.back.dao.File;
 @Repository
 public interface FileRepository extends JpaRepository<File, Long>{
 
-	List<File> findByShopShopId(Long shopId);
-
 }

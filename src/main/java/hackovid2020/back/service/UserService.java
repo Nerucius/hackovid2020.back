@@ -25,7 +25,7 @@ public class UserService {
 			String token = UUID.randomUUID().toString();
 			User user = oUser.get();
 			user.setToken(token);
-			userRepository.save(user);
+			save(user);
 			return token;
 		}
 		return "";
@@ -41,7 +41,7 @@ public class UserService {
 	}
 	
 	public User save(User user) {
-		return userRepository.save(user);
+		return userRepository.saveAndFlush(user);
 	}
 	
 	public User update(Long id, String name, String lastName, String mail, String password, String imageUrl) {
@@ -53,7 +53,7 @@ public class UserService {
 		user.setPassword(password);
 		user.setImageUrl(Constants.GRAVATAR + MD5Util.md5Hex(imageUrl));
 		user.setModifiedAt(Calendar.getInstance().getTime());
-		userRepository.save(user);
+		save(user);
 		return user;
 	}
 

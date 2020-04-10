@@ -2,6 +2,7 @@ package hackovid2020.back.rest;
 
 import javax.transaction.Transactional;
 
+import hackovid2020.back.dto.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,12 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import hackovid2020.back.dto.user.SimpleUserDetailsListResponse;
-import hackovid2020.back.dto.user.SimpleUserDetailsResponse;
-import hackovid2020.back.dto.user.UserCreationRequest;
-import hackovid2020.back.dto.user.UserDetailsResponse;
-import hackovid2020.back.dto.user.UserTokenResponse;
-import hackovid2020.back.dto.user.UserUpdateRequest;
 import hackovid2020.back.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -50,13 +45,15 @@ public class UserController {
 		return UserDetailsResponse.ofUser(userService.save(request.toUser()));
 	}
 	
-	@GetMapping(value="/login")
+	@PostMapping(value="/login")
 	@ResponseBody
 	@ApiOperation(value= "Get login token.")
 	@Transactional
-	public UserTokenResponse login(@RequestParam("mail") String mail, @RequestParam("password") String password) {
+	public UserTokenResponse login(@RequestBody LoginRequest loginRequest) {
+		String mail = loginRequest.getMail();
+		String password = loginRequest.getPassword();
 		String token = userService.login(mail, password);
-		return new UserTokenResponse(mail, password, token);
+		return new UserTokenResponse(mail, token);
 	}
 	
 	@GetMapping(value="/{id}")

@@ -9,15 +9,11 @@ public class UserTokenResponse {
 	private String mail;
 	
 	@JsonProperty
-	private String password;
-	
-	@JsonProperty
 	private String token;
 	
 	@JsonCreator
-	public UserTokenResponse(String mail, String password, String token) {
+	public UserTokenResponse(String mail, String token) {
 		this.mail = mail;
-		this.password = password;
 		this.token = token;
 	}
 
