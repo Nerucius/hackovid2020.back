@@ -1,4 +1,4 @@
-package hackovid2020.back.dto.product;
+package hackovid2020.back.dto.category;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

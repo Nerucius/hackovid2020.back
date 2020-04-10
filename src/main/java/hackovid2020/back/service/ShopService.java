@@ -3,7 +3,6 @@ package hackovid2020.back.service;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,8 +11,6 @@ import hackovid2020.back.dao.Category;
 import hackovid2020.back.dao.File;
 import hackovid2020.back.dao.Shop;
 import hackovid2020.back.dao.ShopLocation;
-import hackovid2020.back.dao.support.CategoriesEnum;
-import hackovid2020.back.dto.file.FileRequest;
 import hackovid2020.back.repository.ShopLocationRepository;
 import hackovid2020.back.repository.CategoryRepository;
 import hackovid2020.back.repository.FileRepository;
@@ -37,18 +34,6 @@ public class ShopService {
 	public Shop saveShop(Shop shop) {
 		return shopRepository.save(shop);
 	}
-	
-	/*public List<Category> saveShopCategories(List<String> shopCategoriesString, Shop shop) {
-		List<Category> shopCategories = shopCategoriesString.stream().map(
-				x -> Category.createCategory(shop, CategoriesEnum.valueOf(x),
-						shop.getCreatedAt(), shop.getModifiedAt())).collect(Collectors.toList());
-		return categoryRepository.saveAll(shopCategories);
-	}*/
-	
-	/*public List<File> saveShopImages(List<FileRequest> shopImageRequests, Shop shop) {
-		List<File> shopImages = shopImageRequests.stream().map(x -> x.toFile(shop)).collect(Collectors.toList());
-		return fileRepository.saveAll(shopImages);
-	}*/
 	
 	public List<File> findAllShopImages(Shop shop) {
 		return fileRepository.findByShopShopId(shop.getShopId());
@@ -74,6 +59,27 @@ public class ShopService {
 
 	public List<Shop> findAllShops() {
 		return shopRepository.findAll();
+	}
+
+	public Shop updateShop(Long id, Long coverImageId, float latitude, float longitude, String streetName) {
+		Shop shop = shopRepository.getOne(id);
+		File coverImage = fileRepository.getOne(coverImageId);
+		ShopLocation location = shopLocationRepository.findByShopShopId(id);
+		
+		location.setLatitude(latitude);
+		location.setLongitude(longitude);
+		location.setStreetName(streetName);
+		location.setModifiedAt(Calendar.getInstance().getTime());
+		shopLocationRepository.save(location);
+		shop.setLocation(location);
+		
+		shop.setCoverImage(coverImage);
+		shop.setModifiedAt(Calendar.getInstance().getTime());
+		return shopRepository.save(shop);
+	}
+
+	public void deleteShop(Long id) {
+		shopRepository.deleteById(id);
 	}
 
 }

@@ -1,4 +1,4 @@
-package hackovid2020.back.dto.product;
+package hackovid2020.back.dto.category;
 
 
 import java.util.List;

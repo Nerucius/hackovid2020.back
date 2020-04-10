@@ -36,4 +36,8 @@ public class CategoryService {
 		return categoryRepository.save(category);
 	}
 
+	public List<Category> findAllShopCategories(List<Long> shopCategoryIds) {
+		return categoryRepository.findAllById(shopCategoryIds);
+	}
+
 }

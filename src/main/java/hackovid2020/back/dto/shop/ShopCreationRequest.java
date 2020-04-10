@@ -3,6 +3,7 @@ package hackovid2020.back.dto.shop;
 import java.util.Calendar;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import hackovid2020.back.dao.Shop;
@@ -22,24 +23,25 @@ public class ShopCreationRequest {
 	
 	private String streetName;
 	
-	private List<String> shopCategories;
+	private List<Long> shopCategoryIds;
 	
 	private List<Long> shopImageIds;
 	
+	@JsonCreator
 	private ShopCreationRequest(
 			@JsonProperty("ownerId") Long ownerId,
 			@JsonProperty("coverImage") FileRequest coverImage,
 			@JsonProperty("latitude") float latitude,
 			@JsonProperty("longitude") float longitude,
 			@JsonProperty("streetName") String streetName,
-			@JsonProperty("shopCategories") List<String> shopCategories,
+			@JsonProperty("shopCategoryIds") List<Long> shopCategoryIds,
 			@JsonProperty("shopImageIds") List<Long> shopImages) {
 		this.ownerId = ownerId;
 		this.coverImage = coverImage;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.streetName = streetName;
-		this.shopCategories = shopCategories;
+		this.shopCategoryIds = shopCategoryIds;
 		this.shopImageIds = shopImages;
 	}
 	
@@ -56,8 +58,8 @@ public class ShopCreationRequest {
 		return coverImage;
 	}
 
-	public List<String> getShopCategories() {
-		return shopCategories;
+	public List<Long> getShopCategoryIds() {
+		return shopCategoryIds;
 	}
 
 	public List<Long> getShopImageIds() {

@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import hackovid2020.back.dto.product.CategoryRequest;
-import hackovid2020.back.dto.product.CategoryResponse;
-import hackovid2020.back.dto.product.CategoryResponseList;
+import hackovid2020.back.dto.category.CategoryRequest;
+import hackovid2020.back.dto.category.CategoryResponse;
+import hackovid2020.back.dto.category.CategoryResponseList;
 import hackovid2020.back.service.CategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
