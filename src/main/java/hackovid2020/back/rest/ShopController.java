@@ -1,6 +1,8 @@
 package hackovid2020.back.rest;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -21,6 +23,7 @@ import hackovid2020.back.dao.ShopLocation;
 import hackovid2020.back.dao.User;
 import hackovid2020.back.dto.shop.ShopCreationRequest;
 import hackovid2020.back.dto.shop.ShopDetailsResponse;
+import hackovid2020.back.dto.shop.ShopDetailsResponseList;
 import hackovid2020.back.dto.user.UserDetailsResponse;
 import hackovid2020.back.service.FileService;
 import hackovid2020.back.service.ShopService;
@@ -48,11 +51,14 @@ public class ShopController {
 	@Transactional
 	public ShopDetailsResponse createShop(@RequestBody ShopCreationRequest request) {
 		User owner = userService.findById(request.getOwnerId());
-		Shop shop = shopService.saveShop(request.toShop(owner));
-		List<Category> shopCategories = shopService.saveShopCategories(request.getShopCategories(), shop);
-		List<File> shopImages = fileService.findAllShopImages(request.getShopImageIds());
 		ShopLocation location = shopService.saveShopLocation(request.getLatitude(), request.getLongitude(),
 				request.getStreetName());
+		Shop shop = shopService.saveShop(request.toShop(owner, location));
+		Set<Category> shopCategories = shopService.saveShopCategories(request.getShopCategories(), shop)
+				.stream().collect(Collectors.toSet());
+		Set<File> shopImages = fileService.findAllShopImages(request.getShopImageIds())
+				.stream().collect(Collectors.toSet());
+		fileService.assignShopToFiles(request.getShopImageIds(), shop);
 		return ShopDetailsResponse.ofShop(shop, UserDetailsResponse.ofUser(owner),
 				shopImages, shopCategories, location);
 	}
@@ -63,18 +69,29 @@ public class ShopController {
 	@Transactional
 	public ShopDetailsResponse getShop(@PathVariable("id") Long id) {
 		Shop shop = shopService.findById(id);
-		List<File> shopImages = fileService.findAllShopImages(shop.getShopId());
-		List<Category> shopCategories = shopService.findAllShopCategories(shop);
+		Set<File> shopImages = fileService.findAllShopImages(shop.getShopId())
+				.stream().collect(Collectors.toSet());;
+		Set<Category> shopCategories = shopService.findAllShopCategories(shop)
+				.stream().collect(Collectors.toSet());;
 		ShopLocation location = shopService.findShopLocation(shop);
 		return ShopDetailsResponse.ofShop(shop, UserDetailsResponse.ofUser(shop.getUser()),
 				shopImages, shopCategories, location);
 	}
 	
-	public void getShops() {
-		
+	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	@ApiOperation(value = "Get all shop.")
+	@Transactional
+	public ShopDetailsResponseList getShops() {
+		List<Shop> shops = shopService.findAllShops();
+		return ShopDetailsResponseList.ofShopsList(shops);
 	}
 	
-	public void updateShop() {
+	@PostMapping(value="/{id}", produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	@ApiOperation(value = "Update a shop.")
+	@Transactional
+	public void updateShop(@PathVariable("id") Long id, ShopCreationRequest request) {
 		
 	}
 	

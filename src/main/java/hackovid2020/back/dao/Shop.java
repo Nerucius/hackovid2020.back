@@ -14,6 +14,8 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import hackovid2020.back.dao.support.CategoriesEnum;
+
 @Entity(name="shop")
 public class Shop extends EntityObject {
 
@@ -28,18 +30,30 @@ public class Shop extends EntityObject {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private File coverImage;
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Set<File> shopImages;
 	
-	private Shop(File coverImage, User user, Set<File> shopImages, Date createdAt, Date modifiedAt) {
+	@OneToMany(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Set<Category> categories;
+	
+	@OneToOne
+	private ShopLocation location;
+	
+	private Shop(File coverImage, User user, Set<File> shopImages, Set<Category> categories,
+			ShopLocation location, Date createdAt, Date modifiedAt) {
 		super(createdAt, modifiedAt);
 		this.coverImage = coverImage;
 		this.user = user;
 		this.shopImages = shopImages;
+		this.location = location;
+		this.categories = categories;
 	}
 	
-	public static Shop createShop(File coverImage, User user, Set<File> shopImages, Date createdAt, Date modifiedAt) {
-		return new Shop(coverImage,  user, shopImages, createdAt, modifiedAt);
+	public static Shop createShop(File coverImage, User user, Set<File> shopImages, Set<Category> categories,
+			ShopLocation location, Date createdAt, Date modifiedAt) {
+		return new Shop(coverImage,  user, shopImages, categories, location, createdAt, modifiedAt);
 	}
 
 	public Long getShopId() {
@@ -68,6 +82,22 @@ public class Shop extends EntityObject {
 
 	public void setShopImages(Set<File> shopImages) {
 		this.shopImages = shopImages;
+	}
+
+	public ShopLocation getLocation() {
+		return location;
+	}
+
+	public void setLocation(ShopLocation location) {
+		this.location = location;
+	}
+
+	public Set<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
 	}
 	
 }

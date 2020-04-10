@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import hackovid2020.back.dao.Shop;
+import hackovid2020.back.dao.ShopLocation;
 import hackovid2020.back.dao.User;
 import hackovid2020.back.dto.file.FileRequest;
 
@@ -42,8 +43,8 @@ public class ShopCreationRequest {
 		this.shopImageIds = shopImages;
 	}
 	
-	public Shop toShop(User owner) {
-		return Shop.createShop(null, owner, null , Calendar.getInstance().getTime(),
+	public Shop toShop(User owner, ShopLocation location) {
+		return Shop.createShop(null, owner, null, null, location, Calendar.getInstance().getTime(),
 				Calendar.getInstance().getTime());
 	}
 

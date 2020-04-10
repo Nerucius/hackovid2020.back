@@ -21,7 +21,7 @@ public class ShopCategoryResponse {
 	}
 	
 	public static ShopCategoryResponse ofCategory(Category category) {
-		return new ShopCategoryResponse(category.getCategoryId(), category.getCategoryEnum());
+		return new ShopCategoryResponse(category.getCategoryId(), category.getCategory());
 	}
 
 }

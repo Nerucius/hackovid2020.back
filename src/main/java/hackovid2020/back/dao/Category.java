@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -26,14 +27,19 @@ public class Category extends EntityObject {
 	
 	private CategoriesEnum category;
 	
-	private Category(Shop shop, CategoriesEnum category, Date createdAt, Date modifiedAt) {
+	@OneToOne (fetch = FetchType.LAZY)
+	private Category parentCategory;
+	
+	private Category(Shop shop, CategoriesEnum category, Category parentCategory, Date createdAt, Date modifiedAt) {
 		super(createdAt, modifiedAt);
 		this.shop = shop;
 		this.category = category;
+		this.parentCategory = parentCategory;
 	}
 	
-	public static Category createCategory(Shop shop, CategoriesEnum categoryEnum, Date createdAt, Date modifiedAt) {
-		return new Category(shop, categoryEnum, createdAt, modifiedAt);
+	public static Category createCategory(Shop shop, CategoriesEnum categoryEnum, Category parentCategory,
+			Date createdAt, Date modifiedAt) {
+		return new Category(shop, categoryEnum, parentCategory, createdAt, modifiedAt);
 	}
 
 	public Shop getShop() {
@@ -44,16 +50,26 @@ public class Category extends EntityObject {
 		this.shop = shop;
 	}
 
-	public CategoriesEnum getCategoryEnum() {
+	public CategoriesEnum getCategory() {
 		return category;
 	}
 
-	public void setCategoryEnum(CategoriesEnum category) {
+	public void setCategory(CategoriesEnum category) {
 		this.category = category;
 	}
 
 	public Long getCategoryId() {
 		return categoryId;
 	}
+
+	public Category getParentCategory() {
+		return parentCategory;
+	}
+
+	public void setParentCategory(Category parentCategory) {
+		this.parentCategory = parentCategory;
+	}
+	
+	
 	
 }

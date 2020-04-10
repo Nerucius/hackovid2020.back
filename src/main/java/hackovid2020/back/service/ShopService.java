@@ -38,17 +38,17 @@ public class ShopService {
 		return shopRepository.save(shop);
 	}
 	
-	public List<Category> saveShopCategories(List<String> shopCategoriesString, Shop shop) {
+	/*public List<Category> saveShopCategories(List<String> shopCategoriesString, Shop shop) {
 		List<Category> shopCategories = shopCategoriesString.stream().map(
 				x -> Category.createCategory(shop, CategoriesEnum.valueOf(x),
 						shop.getCreatedAt(), shop.getModifiedAt())).collect(Collectors.toList());
 		return categoryRepository.saveAll(shopCategories);
-	}
+	}*/
 	
-	public List<File> saveShopImages(List<FileRequest> shopImageRequests, Shop shop) {
+	/*public List<File> saveShopImages(List<FileRequest> shopImageRequests, Shop shop) {
 		List<File> shopImages = shopImageRequests.stream().map(x -> x.toFile(shop)).collect(Collectors.toList());
 		return fileRepository.saveAll(shopImages);
-	}
+	}*/
 	
 	public List<File> findAllShopImages(Shop shop) {
 		return fileRepository.findByShopShopId(shop.getShopId());
@@ -72,6 +72,8 @@ public class ShopService {
 		return shopLocationRepository.findByShopShopId(shop.getShopId());
 	}
 
-	
+	public List<Shop> findAllShops() {
+		return shopRepository.findAll();
+	}
 
 }

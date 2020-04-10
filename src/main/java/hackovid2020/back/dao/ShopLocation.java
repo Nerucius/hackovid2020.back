@@ -24,10 +24,6 @@ public class ShopLocation extends EntityObject {
 	
 	private String streetName;
 	
-	@ManyToOne (fetch = FetchType.LAZY)
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private Shop shop;
-	
 	private ShopLocation(float latitude, float longitude, String streetName, Date createdAt, Date modifiedAt) {
 		super(createdAt, modifiedAt);
 		this.latitude = latitude;
