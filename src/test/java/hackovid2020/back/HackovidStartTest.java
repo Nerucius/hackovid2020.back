@@ -98,6 +98,22 @@ public class HackovidStartTest {
         assertThat(mvcResult.getString("token"), not(""));
     }
 
+    @Test
+    public void wrongLoginTest() throws Exception {
+        userRepository.saveAndFlush(
+                User.createUser(firstName, lastName, mail, password, url,
+                        Calendar.getInstance().getTime(), Calendar.getInstance().getTime())
+        );
+
+        JSONObject content = new JSONObject();
+        content.put("mail", mail);
+        content.put("password", "WRONG_PASSWORD");
+
+        // Act
+        MockHttpServletResponse response = sendRequest(content, MockMvcRequestBuilders.post("/api/user/login"));
+        assertThat(response.getStatus(), is(403));
+    }
+
     private MockHttpServletResponse sendRequest(JSONObject content, MockHttpServletRequestBuilder builder) throws Exception {
         return mvc.perform(builder
                 .content(content.toString())

@@ -6,12 +6,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import hackovid2020.back.Constants;
 import hackovid2020.back.dao.User;
 import hackovid2020.back.repository.UserRepository;
 import hackovid2020.back.utils.MD5Util;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class UserService {
@@ -19,7 +21,7 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public String login(String mail, String password) {
+	public String login(String mail, String password) throws ResponseStatusException {
 		Optional<User> oUser = userRepository.findUserByMailAndPassword(mail, password);
 		if (oUser.isPresent()) {
 			String token = UUID.randomUUID().toString();
@@ -28,7 +30,7 @@ public class UserService {
 			save(user);
 			return token;
 		}
-		return "";
+		throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 	}
 	
 	public Optional<User> findByToken(String token) {
