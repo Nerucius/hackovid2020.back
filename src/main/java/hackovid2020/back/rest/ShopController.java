@@ -51,7 +51,6 @@ public class ShopController {
 		Shop shop = shopService.saveShop(request.toShop(owner));
 		List<Category> shopCategories = shopService.saveShopCategories(request.getShopCategories(), shop);
 		List<File> shopImages = fileService.findAllShopImages(request.getShopImageIds());
-		//List<ShopImage> shopImages = shopService.saveShopImages(request.getShopImages(), shop);
 		ShopLocation location = shopService.saveShopLocation(request.getLatitude(), request.getLongitude(),
 				request.getStreetName());
 		return ShopDetailsResponse.ofShop(shop, UserDetailsResponse.ofUser(owner),

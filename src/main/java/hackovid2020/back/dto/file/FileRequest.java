@@ -27,8 +27,8 @@ public class FileRequest {
 		this.url = url;
 	}
 	
-	public File toFile(Shop shop) {
-		return File.createFile(name, fileType, url, shop,
+	public File toFile() {
+		return File.createFile(name, fileType, url, null,
 				Calendar.getInstance().getTime(), Calendar.getInstance().getTime());
 	}
 
