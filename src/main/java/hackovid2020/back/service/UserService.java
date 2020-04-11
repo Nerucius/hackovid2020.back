@@ -20,14 +20,14 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public String login(String mail, String password) throws ResponseStatusException {
+	public User login(String mail, String password) throws ResponseStatusException {
 		Optional<User> oUser = userRepository.findUserByMailAndPassword(mail, password);
 		if (oUser.isPresent()) {
 			String token = UUID.randomUUID().toString();
 			User user = oUser.get();
 			user.setToken(token);
 			save(user);
-			return token;
+			return user;
 		}
 		throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 	}
@@ -64,6 +64,10 @@ public class UserService {
 
 	public User findById(Long id) {
 		return userRepository.findById(id).get();
+	}
+
+	public boolean existsWithSameEmail(String email) {
+		return userRepository.existsByMail(email);
 	}
 
 	public List<User> findAll() {

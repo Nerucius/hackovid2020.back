@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,6 +69,35 @@ public class HackovidStartTest {
     }
 
     @Test
+    public void testCors() throws Exception {
+        MockHttpServletResponse response = sendRequest(new JSONObject(),
+                MockMvcRequestBuilders
+                        .get("/api/user")
+                        .header("Access-Control-Request-Method", "GET")
+                        .header("Origin", "https://evil.com")
+        );
+        assertThat(response.getStatus(), is(200));
+    }
+
+    @Test
+    public void testOptionRequest() throws Exception {
+        MockHttpServletResponse response = sendRequest(new JSONObject(),
+                MockMvcRequestBuilders
+                        .options("/api/user")
+        );
+        assertThat(response.getStatus(), is(200));
+    }
+
+    @Test
+    public void testHeadRequest() throws Exception {
+        MockHttpServletResponse response = sendRequest(new JSONObject(),
+                MockMvcRequestBuilders
+                        .head("/api/user")
+        );
+        assertThat(response.getStatus(), is(200));
+    }
+
+    @Test
     public void WeWantToCreatAUserWithRequest() throws Exception {
         User peterParkerUser = UserMother.createPeterParkerUser();
         JSONObject content = new JSONObject();
@@ -91,6 +121,24 @@ public class HackovidStartTest {
     }
 
     @Test
+    public void userWithSameEmailTest() throws Exception {
+        User peterParkerUser = UserMother.createPeterParkerUser();
+        userRepository.saveAndFlush(
+                peterParkerUser
+        );
+
+        JSONObject content = new JSONObject();
+        content.put("firstName", peterParkerUser.getFirstName());
+        content.put("lastName", peterParkerUser.getLastName());
+        content.put("mail", peterParkerUser.getMail());
+        content.put("password", peterParkerUser.getPassword());
+
+        // Act
+        MockHttpServletResponse response = sendRequest(content, MockMvcRequestBuilders.post("/api/user"));
+        assertThat(response.getStatus(), is(400));
+    }
+
+    @Test
     public void loginTest() throws Exception {
         User peterParkerUser = UserMother.createPeterParkerUser();
         userRepository.saveAndFlush(
@@ -106,7 +154,11 @@ public class HackovidStartTest {
         assertThat(response.getStatus(), is(200));
         JSONObject mvcResult = new JSONObject(response.getContentAsString());
 
+        // Assert
+        assertThat(mvcResult.getString("firstName"), is(peterParkerUser.getFirstName()));
+        assertThat(mvcResult.getString("lastName"), is(peterParkerUser.getLastName()));
         assertThat(mvcResult.getString("mail"), is(peterParkerUser.getMail()));
+        assertThat(mvcResult.has("password"), is(false));
         assertThat(mvcResult.getString("token"), not(""));
     }
 
@@ -171,5 +223,4 @@ public class HackovidStartTest {
                 .andReturn()
                 .getResponse();
     }
-
 }

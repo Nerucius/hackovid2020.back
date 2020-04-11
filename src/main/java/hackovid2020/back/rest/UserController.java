@@ -1,5 +1,6 @@
 package hackovid2020.back.rest;
 
+import hackovid2020.back.dao.User;
 import hackovid2020.back.dto.user.*;
 import hackovid2020.back.service.UserService;
 import io.swagger.annotations.Api;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 
@@ -32,18 +34,22 @@ public class UserController {
 	@ApiOperation(value = "Creates a new user.")
 	@Transactional
 	public UserDetailsResponse createUser(@RequestBody UserCreationRequest request) {
-		return UserDetailsResponse.ofUser(userService.save(request.toUser()));
+		User user = request.toUser();
+		if (userService.existsWithSameEmail(user.getMail())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		}
+		return UserDetailsResponse.ofUser(userService.save(user));
 	}
 	
 	@PostMapping(value="/login")
 	@ResponseBody
 	@ApiOperation(value= "Get login token.")
 	@Transactional
-	public UserTokenResponse login(@RequestBody LoginRequest loginRequest) {
+	public UserDetailsResponse login(@RequestBody LoginRequest loginRequest) {
 		String mail = loginRequest.getMail();
 		String password = loginRequest.getPassword();
-		String token = userService.login(mail, password);
-		return new UserTokenResponse(mail, token);
+		User user = userService.login(mail, password);
+		return UserDetailsResponse.ofUser(user);
 	}
 	
 	@GetMapping(value="/{id}")
