@@ -2,12 +2,18 @@ package hackovid2020.back;
 
 import hackovid2020.back.dao.Category;
 import hackovid2020.back.dao.File;
+import hackovid2020.back.dao.Location;
+import hackovid2020.back.dao.Shop;
 import hackovid2020.back.dao.User;
+import hackovid2020.back.dao.support.EventType;
 import hackovid2020.back.repository.CategoryRepository;
 import hackovid2020.back.repository.FileRepository;
+import hackovid2020.back.repository.LocationRepository;
+import hackovid2020.back.repository.ShopRepository;
 import hackovid2020.back.repository.UserRepository;
 import hackovid2020.back.utils.MD5Util;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -48,6 +54,12 @@ public class HackovidStartTest {
 
     @Autowired
     private CategoryRepository categoryRepository;
+    
+    @Autowired
+    private ShopRepository shopRepository;
+    
+    @Autowired
+    private LocationRepository locationRepository;
 
     @Test
     public void WeWantToCreateANewUserEntity() {
@@ -269,5 +281,52 @@ public class HackovidStartTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andReturn()
                 .getResponse();
+    }
+    
+    @Test
+    public void createEventTest() throws Exception {
+    	// Arrange
+    	User peterParkerUser = UserMother.createPeterParkerUser();
+        userRepository.saveAndFlush(peterParkerUser);
+    	
+    	File file = FileMother.createRandomFile();
+    	fileRepository.saveAndFlush(file);
+    	
+    	List<File> files = FileMother.createRandomFiles(3);
+        fileRepository.saveAll(files);
+        fileRepository.flush();
+
+        List<Category> categories = CategoryMother.createRandomCategories(3);
+        categoryRepository.saveAll(categories);
+        categoryRepository.flush();
+        
+        Location location = LocationMother.createRandomLocation();
+        locationRepository.saveAndFlush(location);
+    	
+    	Shop someFckingShop = ShopMother.createCandyShop(peterParkerUser, file, files, categories, location);
+    	shopRepository.saveAndFlush(someFckingShop);
+    	
+    	String eventName = "My soul is 50% off";
+    	EventType eventType = EventType.DISCOUNT;
+    	
+    	JSONObject content = new JSONObject();
+    	content.put("name", eventName);
+        content.put("shopId", someFckingShop.getShopId());
+        content.put("eventType", eventType);
+    	
+    	// Act
+    	MockHttpServletResponse response = sendRequest(content, MockMvcRequestBuilders.post("/api/shop/"));
+        assertThat(response.getStatus(), is(200));
+
+        JSONObject mvcResult = new JSONObject(response.getContentAsString());
+        assertThat(mvcResult.has("eventId"), not(false));
+        assertThat(mvcResult.has("shopId"), not(false));
+        
+        assertThat(mvcResult.getString("name"), is(eventName));
+        
+        
+        assertThat(mvcResult.has("createdAt"), not(false));
+        assertThat(mvcResult.has("modifiedAt"), not(false));
+        
     }
 }

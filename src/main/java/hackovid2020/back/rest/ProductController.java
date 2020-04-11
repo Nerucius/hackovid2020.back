@@ -9,7 +9,11 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,25 +51,21 @@ public class ProductController {
 		return ProductDetailsResponse.ofProduct(product);
 	}
 	
-	
-	public void getProduct() {
-		
+	@GetMapping(value="/{id}")
+	@ResponseBody
+	@ApiOperation(value= "Get Product.")
+	@Transactional
+	public ProductDetailsResponse getProduct(@PathVariable("id") Long id) {
+		return ProductDetailsResponse.ofProduct(productService.findProduct(id));
 	}
 	
-	public void getShopProducts() {
-		
-	}
-	
-	public void updateProduct() {
-		
-	}
-	
-	public void updateProductImages() {
-		
-	}
-	
-	public void deleteProduct() {
-		
+	@DeleteMapping(value="/{id}")
+	@ResponseBody
+	@ApiOperation(value= "Delete Product.")
+	@Transactional
+	public HttpStatus deleteProduct(@PathVariable("id") Long id) {
+		productService.deleteProduct(id);
+		return HttpStatus.OK;
 	}
 
 }
