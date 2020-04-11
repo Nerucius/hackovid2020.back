@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<changeSet id="create-product-table" author="alvaro.ortega">
+		<createTable tableName="product">
+			<column name="product_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" primaryKeyName="product_pk"
+						nullable="false"/>
+			</column>
+			<column name="name" type="varchar(64)"></column>
+			<column name="description" type="varchar(64)"></column>
+			<column name="price" type="DECIMAL"></column>
+			<column name="shop_shop_id" type="bigint"></column>
+			<column name="created_at" type="date"/>
+			<column name="modified_at" type="date"/>
+		</createTable>
+		<addForeignKeyConstraint constraintName="shop_product" referencedTableName="shop" 
+		baseColumnNames="shop_shop_id" baseTableName="product" referencedColumnNames="shop_id"/>
+	</changeSet>
+	
+	<changeSet id="add_dependant_image_columns" author="alvaro.ortega">
+		<addColumn tableName="file">
+			<column name="product_product_id" type="bigint"></column>
+		</addColumn>
+		
+		<addForeignKeyConstraint constraintName="file_product" referencedTableName="product"
+		baseColumnNames="product_product_id" baseTableName="file" referencedColumnNames="product_id"/>
+	</changeSet>
+	
+</databaseChangeLog>

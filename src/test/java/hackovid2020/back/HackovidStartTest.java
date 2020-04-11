@@ -25,6 +25,7 @@ import org.springframework.util.Assert;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -144,7 +145,7 @@ public class HackovidStartTest {
         content.put("latitude", 20f);
         content.put("longitude", 20f);
         content.put("streetname", "Aribau");
-        content.put("shopCategoryIds", categories.stream().map(Category::getCategoryId).toArray());
+        content.put("shopCategoryIds", categories.stream().map(Category::getCategoryId).collect(Collectors.toList()));
         content.put("shopImageIds", files.stream().map(File::getFileId).toArray());
 
         // Act

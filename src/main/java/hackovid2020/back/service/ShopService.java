@@ -4,14 +4,12 @@ import hackovid2020.back.dao.Category;
 import hackovid2020.back.dao.File;
 import hackovid2020.back.dao.Shop;
 import hackovid2020.back.dao.Location;
-import hackovid2020.back.repository.CategoryRepository;
 import hackovid2020.back.repository.FileRepository;
 import hackovid2020.back.repository.LocationRepository;
 import hackovid2020.back.repository.ShopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -21,9 +19,6 @@ public class ShopService {
 	
 	@Autowired
 	private ShopRepository shopRepository;
-	
-	@Autowired
-	private CategoryRepository categoryRepository;
 	
 	@Autowired
 	private LocationRepository shopLocationRepository;

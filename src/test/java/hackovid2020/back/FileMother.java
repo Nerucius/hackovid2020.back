@@ -14,6 +14,7 @@ public class FileMother {
                 FileType.JPG,
                 "https://picsum.photos/200",
                 null,
+                null,
                 Calendar.getInstance().getTime(),
                 Calendar.getInstance().getTime()
         );

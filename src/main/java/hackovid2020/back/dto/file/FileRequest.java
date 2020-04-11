@@ -26,7 +26,7 @@ public class FileRequest {
 	}
 	
 	public File toFile() {
-		return File.createFile(name, fileType, url, null,
+		return File.createFile(name, fileType, url, null, null,
 				Calendar.getInstance().getTime(), Calendar.getInstance().getTime());
 	}
 

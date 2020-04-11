@@ -1,6 +1,7 @@
 package hackovid2020.back.service;
 
 import hackovid2020.back.dao.File;
+import hackovid2020.back.dao.Product;
 import hackovid2020.back.dao.Shop;
 import hackovid2020.back.dao.support.FileType;
 import hackovid2020.back.repository.FileRepository;
@@ -48,6 +49,12 @@ public class FileService {
 	public void assignShopToFiles(List<Long> ids, Shop shop) {
 		List<File> files = fileRepository.findAllById(ids);
 		files.forEach(x -> x.setShop(shop));
+		fileRepository.saveAll(files);
+	}
+	
+	public void assignProductToFiles(List<Long> ids, Product product) {
+		List<File> files = fileRepository.findAllById(ids);
+		files.forEach(x -> x.setProduct(product));
 		fileRepository.saveAll(files);
 	}
 

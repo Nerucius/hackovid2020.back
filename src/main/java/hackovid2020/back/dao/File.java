@@ -23,11 +23,15 @@ public class File extends EntityObject {
 	
 	@ManyToOne
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JoinColumn(name="shop_id", nullable=true)
+	@JoinColumn(name="shop_shop_id", nullable=true)
 	private Shop shop;
 	
+	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JoinColumn(name="product_product_id", nullable=true)
+	private Product product;
 	
-	private File(String name, FileType fileType, String url, Shop shop, Date createdAt, Date modifiedAt) {
+	private File(String name, FileType fileType, String url, Shop shop, Product product, Date createdAt, Date modifiedAt) {
 		super(createdAt, modifiedAt);
 		this.name = name;
 		this.fileType = fileType;
@@ -35,8 +39,8 @@ public class File extends EntityObject {
 		this.shop = shop;
 	}
 	
-	public static File createFile(String name, FileType fileType, String url, Shop shop, Date createdAt, Date modifiedAt) {
-		return new File(name, fileType, url, shop, createdAt, modifiedAt);
+	public static File createFile(String name, FileType fileType, String url, Shop shop, Product product, Date createdAt, Date modifiedAt) {
+		return new File(name, fileType, url, shop, product, createdAt, modifiedAt);
 	}
 
 	public String getName() {
@@ -75,6 +79,12 @@ public class File extends EntityObject {
 		this.shop = shop;
 	}
 
-	
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 	
 }
