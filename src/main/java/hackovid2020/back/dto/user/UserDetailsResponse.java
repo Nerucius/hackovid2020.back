@@ -64,7 +64,7 @@ public class UserDetailsResponse {
 	
 	public static UserDetailsResponse ofUser(User user) {
 		return new UserDetailsResponse(user.getUserId(), user.getFirstName(), user.getLastName(), user.getMail(), user.getToken(),
-				user.getImageUrl(), user.isAccountNonExpired(), user.isAccountNonLocked(), user.isCredentialsNonExpired(),
+				user.getImageId(), user.isAccountNonExpired(), user.isAccountNonLocked(), user.isCredentialsNonExpired(),
 				user.isEnabled(), user.getCreatedAt(), user.getModifiedAt());
 	}
 

@@ -25,7 +25,7 @@ public class User extends EntityObject implements UserDetails {
 	
 	private String password;
 	
-	private String imageUrl;
+	private String imageId;
 	
 	private String token;
 	
@@ -41,13 +41,13 @@ public class User extends EntityObject implements UserDetails {
 		super(null, null);
 	}
 	
-	private User(String firstName, String lastName, String mail, String password, String imageUrl, Date createdAt, Date modifiedAt) {
+	private User(String firstName, String lastName, String mail, String password, String imageId, Date createdAt, Date modifiedAt) {
 		super(createdAt, modifiedAt);
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.mail = mail;
 		this.password = password;
-		this.imageUrl = imageUrl;
+		this.imageId = imageId;
 		this.isAccountNonLocked = true;
 		this.isAccountNonExpired = true;
 		this.isCredentialsNonExpired = true;
@@ -91,12 +91,12 @@ public class User extends EntityObject implements UserDetails {
 		this.password = password;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
+	public String getImageId() {
+		return imageId;
 	}
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setImageId(String imageId) {
+		this.imageId = imageId;
 	}
 
 	public Long getUserId() {

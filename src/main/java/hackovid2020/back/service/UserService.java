@@ -52,7 +52,7 @@ public class UserService {
 		// TODO check that the new mail does not exist
 		user.setMail(mail);
 		user.setPassword(password);
-		user.setImageUrl(Constants.GRAVATAR + MD5Util.md5Hex(imageUrl));
+		user.setImageId(Constants.GRAVATAR + MD5Util.md5Hex(imageUrl));
 		user.setModifiedAt(Calendar.getInstance().getTime());
 		save(user);
 		return user;
