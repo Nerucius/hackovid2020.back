@@ -8,5 +8,6 @@
     <include file="migrations/0001-user.xml" relativeToChangelogFile="true"/>
     <include file="migrations/0002-shop.xml" relativeToChangelogFile="true"/>
     <include file="migrations/0003-product.xml" relativeToChangelogFile="true"/>
+    <include file="migrations/0004-event.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

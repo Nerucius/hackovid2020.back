@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<changeSet id="create-event-table" author="alvaro.ortega">
+		<createTable tableName="event">
+			<column name="event_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" primaryKeyName="event_pk"
+						nullable="false"/>
+			</column>
+			<column name="name" type="varchar(64)"></column>
+			<column name="event_type" type="int"></column>
+			<column name="shop_shop_id" type="bigint"></column>
+			<column name="created_at" type="date"/>
+			<column name="modified_at" type="date"/>
+		</createTable>
+	
+		<addForeignKeyConstraint constraintName="shop_event" referencedTableName="shop" 
+		baseColumnNames="shop_shop_id" baseTableName="event" referencedColumnNames="shop_id"/>
+	</changeSet>
+</databaseChangeLog>
