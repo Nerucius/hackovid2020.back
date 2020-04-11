@@ -90,6 +90,24 @@ public class HackovidStartTest {
     }
 
     @Test
+    public void userWithSameEmailTest() throws Exception {
+        User peterParkerUser = UserMother.createPeterParkerUser();
+        userRepository.saveAndFlush(
+                peterParkerUser
+        );
+
+        JSONObject content = new JSONObject();
+        content.put("firstName", peterParkerUser.getFirstName());
+        content.put("lastName", peterParkerUser.getLastName());
+        content.put("mail", peterParkerUser.getMail());
+        content.put("password", peterParkerUser.getPassword());
+
+        // Act
+        MockHttpServletResponse response = sendRequest(content, MockMvcRequestBuilders.post("/api/user"));
+        assertThat(response.getStatus(), is(400));
+    }
+
+    @Test
     public void loginTest() throws Exception {
         User peterParkerUser = UserMother.createPeterParkerUser();
         userRepository.saveAndFlush(

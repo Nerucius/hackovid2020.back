@@ -66,6 +66,10 @@ public class UserService {
 		return userRepository.findById(id).get();
 	}
 
+	public boolean existsWithSameEmail(String email) {
+		return userRepository.existsByMail(email);
+	}
+
 	public List<User> findAll() {
 		return userRepository.findAll();
 	}

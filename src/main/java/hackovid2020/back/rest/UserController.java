@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 
@@ -33,7 +34,11 @@ public class UserController {
 	@ApiOperation(value = "Creates a new user.")
 	@Transactional
 	public UserDetailsResponse createUser(@RequestBody UserCreationRequest request) {
-		return UserDetailsResponse.ofUser(userService.save(request.toUser()));
+		User user = request.toUser();
+		if (userService.existsWithSameEmail(user.getMail())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		}
+		return UserDetailsResponse.ofUser(userService.save(user));
 	}
 	
 	@PostMapping(value="/login")
