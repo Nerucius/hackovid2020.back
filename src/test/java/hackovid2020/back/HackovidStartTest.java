@@ -29,8 +29,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -194,7 +193,8 @@ public class HackovidStartTest {
 
         JSONObject content = new JSONObject();
         content.put("ownerId", peterParkerUser.getUserId());
-        content.put("coverImage", files.get(0).getFileId());
+        File coverImage = files.get(0);
+        content.put("coverImage", coverImage.getFileId());
         content.put("latitude", 20f);
         content.put("longitude", 20f);
         content.put("streetname", "Aribau");
@@ -208,12 +208,30 @@ public class HackovidStartTest {
         JSONObject mvcResult = new JSONObject(response.getContentAsString());
 
         assertThat(mvcResult.has("shopId"), not(false));
-        assertThat(mvcResult.has("coverImage"), not(false));
-        assertThat(mvcResult.has("userDetailsResponse"), not(false));
+        JSONObject coverImageJSON = mvcResult.getJSONObject("coverImage");
+        assertThat(coverImageJSON.getLong("fileId"), comparesEqualTo(coverImage.getFileId()));
+        assertThat(coverImageJSON.getString("name"), is(coverImage.getName()));
+        assertThat(coverImageJSON.getString("fileType"), is(coverImage.getFileType().name()));
+        assertThat(coverImageJSON.getString("url"), is(coverImage.getUrl()));
+
+        JSONObject userDetailsResponse = mvcResult.getJSONObject("userDetailsResponse");
+        assertThat(userDetailsResponse.getString("firstName"), is(peterParkerUser.getFirstName()));
+        assertThat(userDetailsResponse.getString("lastName"), is(peterParkerUser.getLastName()));
+        assertThat(userDetailsResponse.getString("mail"), is(peterParkerUser.getMail()));
+        assertThat(userDetailsResponse.has("password"), is(false));
+        assertThat(userDetailsResponse.getString("token"), not(""));
+
         assertThat(mvcResult.has("createdAt"), not(false));
         assertThat(mvcResult.has("modifiedAt"), not(false));
-        assertThat(mvcResult.has("shopImages"), not(false));
-        assertThat(mvcResult.has("shopCategories"), not(false));
+
+        JSONArray shopImages = mvcResult.getJSONArray("shopImages");
+        assertThat(shopImages.length(), is(files.size())); // TODO test better pls
+
+        JSONArray shopCategories = mvcResult.getJSONArray("shopCategories");
+        assertThat(shopCategories.length(), is(categories.size()));
+        JSONObject categoryResponse = shopCategories.getJSONObject(0);
+        Category category = categories.get(0); // TODO be menos gitano testeando
+        assertThat(categoryResponse.getString("shopCategory"), is(category.getCategory().name()));
     }
 
     private MockHttpServletResponse sendRequest(JSONObject content, MockHttpServletRequestBuilder builder) throws Exception {
