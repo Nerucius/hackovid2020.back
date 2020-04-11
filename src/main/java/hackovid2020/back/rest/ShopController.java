@@ -1,6 +1,7 @@
 package hackovid2020.back.rest;
 
 import hackovid2020.back.dao.*;
+import hackovid2020.back.dto.product.ProductResponseList;
 import hackovid2020.back.dto.shop.ShopCreationRequest;
 import hackovid2020.back.dto.shop.ShopDetailsResponse;
 import hackovid2020.back.dto.shop.ShopDetailsResponseList;
@@ -8,6 +9,7 @@ import hackovid2020.back.dto.shop.ShopUpdateRequest;
 import hackovid2020.back.dto.user.UserDetailsResponse;
 import hackovid2020.back.service.CategoryService;
 import hackovid2020.back.service.FileService;
+import hackovid2020.back.service.ProductService;
 import hackovid2020.back.service.ShopService;
 import hackovid2020.back.service.UserService;
 import io.swagger.annotations.Api;
@@ -39,6 +41,9 @@ public class ShopController {
 	@Autowired
 	private CategoryService categoryService;
 	
+	@Autowired
+	private ProductService productService;
+	
 	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	@ApiOperation(value = "Creates a new shop.")
@@ -57,8 +62,9 @@ public class ShopController {
 		Set<File> shopImages = fileService.findAllShopImages(request.getShopImageIds())
 				.stream().collect(Collectors.toSet());
 		fileService.assignShopToFiles(request.getShopImageIds(), shop);
+		List<Product> productList = productService.findAllShopProducts(shop.getShopId());
 		return ShopDetailsResponse.ofShop(shop, UserDetailsResponse.ofUser(owner),
-				shopImages, shopCategories, location);
+				shopImages, shopCategories, location, ProductResponseList.ofProductList(productList));
 	}
 	
 	@GetMapping(value="/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
@@ -70,9 +76,10 @@ public class ShopController {
 		Set<File> shopImages = fileService.findAllShopImages(shop.getShopId())
 				.stream().collect(Collectors.toSet());;
 		Set<Category> shopCategories = shopService.findAllShopCategories(shop)
-				.stream().collect(Collectors.toSet());;
+				.stream().collect(Collectors.toSet());
+		List<Product> productList = productService.findAllShopProducts(shop.getShopId());
 		return ShopDetailsResponse.ofShop(shop, UserDetailsResponse.ofUser(shop.getUser()),
-				shopImages, shopCategories, shop.getLocation());
+				shopImages, shopCategories, shop.getLocation(), ProductResponseList.ofProductList(productList));
 	}
 	
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
@@ -92,7 +99,9 @@ public class ShopController {
 		Shop shop = shopService.updateShop(id, request.getCoverImageId(), request.getLatitude(),
 				request.getLongitude(), request.getStreetName());
 		UserDetailsResponse udr = UserDetailsResponse.ofUser(shop.getUser());
-		return ShopDetailsResponse.ofShop(shop, udr, shop.getShopImages(), shop.getCategories(), shop.getLocation());
+		List<Product> productList = productService.findAllShopProducts(shop.getShopId());
+		return ShopDetailsResponse.ofShop(shop, udr, shop.getShopImages(), shop.getCategories(), shop.getLocation(),
+				ProductResponseList.ofProductList(productList));
 	}
 	
 	@DeleteMapping(value="/{id}")

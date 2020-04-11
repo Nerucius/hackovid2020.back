@@ -24,7 +24,8 @@ public class ShopDetailsResponseList {
 				UserDetailsResponse.ofUser(x.getUser()),
 				x.getShopImages(),
 				x.getCategories(),
-				x.getLocation()))
+				x.getLocation(),
+				null))
 				.collect(Collectors.toList());
 		return new ShopDetailsResponseList(shops);
 	}
