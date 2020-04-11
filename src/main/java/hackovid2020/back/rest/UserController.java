@@ -1,5 +1,6 @@
 package hackovid2020.back.rest;
 
+import hackovid2020.back.dao.User;
 import hackovid2020.back.dto.user.*;
 import hackovid2020.back.service.UserService;
 import io.swagger.annotations.Api;
@@ -39,11 +40,11 @@ public class UserController {
 	@ResponseBody
 	@ApiOperation(value= "Get login token.")
 	@Transactional
-	public UserTokenResponse login(@RequestBody LoginRequest loginRequest) {
+	public UserDetailsResponse login(@RequestBody LoginRequest loginRequest) {
 		String mail = loginRequest.getMail();
 		String password = loginRequest.getPassword();
-		String token = userService.login(mail, password);
-		return new UserTokenResponse(mail, token);
+		User user = userService.login(mail, password);
+		return UserDetailsResponse.ofUser(user);
 	}
 	
 	@GetMapping(value="/{id}")

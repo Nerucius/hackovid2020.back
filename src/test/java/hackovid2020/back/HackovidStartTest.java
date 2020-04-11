@@ -105,7 +105,11 @@ public class HackovidStartTest {
         assertThat(response.getStatus(), is(200));
         JSONObject mvcResult = new JSONObject(response.getContentAsString());
 
+        // Assert
+        assertThat(mvcResult.getString("firstName"), is(peterParkerUser.getFirstName()));
+        assertThat(mvcResult.getString("lastName"), is(peterParkerUser.getLastName()));
         assertThat(mvcResult.getString("mail"), is(peterParkerUser.getMail()));
+        assertThat(mvcResult.has("password"), is(false));
         assertThat(mvcResult.getString("token"), not(""));
     }
 
