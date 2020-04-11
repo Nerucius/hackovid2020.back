@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,6 +65,35 @@ public class HackovidStartTest {
         Assert.isTrue(user.getLastName().equals(lastName), "Wrong mapping of the LastName");
         Assert.isTrue(user.getMail().equals(mail), "Wrong mapping of the Mail");
         Assert.isTrue(user.getPassword().equals(password), "Wrong mapping of the Password");
+    }
+
+    @Test
+    public void testCors() throws Exception {
+        MockHttpServletResponse response = sendRequest(new JSONObject(),
+                MockMvcRequestBuilders
+                        .get("/api/user")
+                        .header("Access-Control-Request-Method", "GET")
+                        .header("Origin", "https://evil.com")
+        );
+        assertThat(response.getStatus(), is(200));
+    }
+
+    @Test
+    public void testOptionRequest() throws Exception {
+        MockHttpServletResponse response = sendRequest(new JSONObject(),
+                MockMvcRequestBuilders
+                        .options("/api/user")
+        );
+        assertThat(response.getStatus(), is(200));
+    }
+
+    @Test
+    public void testHeadRequest() throws Exception {
+        MockHttpServletResponse response = sendRequest(new JSONObject(),
+                MockMvcRequestBuilders
+                        .head("/api/user")
+        );
+        assertThat(response.getStatus(), is(200));
     }
 
     @Test
@@ -192,5 +222,4 @@ public class HackovidStartTest {
                 .andReturn()
                 .getResponse();
     }
-
 }
