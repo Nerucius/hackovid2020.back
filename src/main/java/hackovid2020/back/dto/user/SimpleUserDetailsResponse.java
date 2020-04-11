@@ -23,7 +23,7 @@ public class SimpleUserDetailsResponse {
 	}
 
 	public static SimpleUserDetailsResponse ofUser(User user) {
-		return new SimpleUserDetailsResponse(user.getFirstName(), user.getLastName(), user.getImageUrl());
+		return new SimpleUserDetailsResponse(user.getFirstName(), user.getLastName(), user.getImageId());
 	}
 	
 }

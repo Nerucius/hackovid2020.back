@@ -36,14 +36,14 @@ public class HackovidStartTest {
 
     @Autowired
     private UserRepository userRepository;
-    private static final String firstName = "Peter";
-    private static final String lastName = "Parker";
-    private static final String mail = "peterparker@gmail.com";
-    private static final String password = "123456";
-    private static final String url = Constants.GRAVATAR + MD5Util.md5Hex(mail);
 
     @Test
     public void WeWantToCreateANewUserEntity() {
+        final String firstName = "Peter";
+        final String lastName = "Parker";
+        final String mail = "peterparker@gmail.com";
+        final String password = "123456";
+        final String url = Constants.GRAVATAR + MD5Util.md5Hex(mail);
         // Act
         User user = User.createUser(firstName, lastName, mail, password, url,
                 Calendar.getInstance().getTime(), Calendar.getInstance().getTime());
@@ -57,11 +57,12 @@ public class HackovidStartTest {
 
     @Test
     public void WeWantToCreatAUserWithRequest() throws Exception {
+        User peterParkerUser = UserMother.createPeterParkerUser();
         JSONObject content = new JSONObject();
-        content.put("firstName", firstName);
-        content.put("lastName", lastName);
-        content.put("mail", mail);
-        content.put("password", password);
+        content.put("firstName", peterParkerUser.getFirstName());
+        content.put("lastName", peterParkerUser.getLastName());
+        content.put("mail", peterParkerUser.getMail());
+        content.put("password", peterParkerUser.getPassword());
 
         // Act
         MockHttpServletResponse response = sendRequest(content, MockMvcRequestBuilders.post("/api/user"));
@@ -70,42 +71,42 @@ public class HackovidStartTest {
                 .getContentAsString());
 
         // Assert
-        assertThat(mvcResult.getString("firstName"), is(firstName));
-        assertThat(mvcResult.getString("lastName"), is(lastName));
-        assertThat(mvcResult.getString("mail"), is(mail));
+        assertThat(mvcResult.getString("firstName"), is(peterParkerUser.getFirstName()));
+        assertThat(mvcResult.getString("lastName"), is(peterParkerUser.getLastName()));
+        assertThat(mvcResult.getString("mail"), is(peterParkerUser.getMail()));
         assertThat(mvcResult.has("password"), is(false));
         assertThat(mvcResult.getString("token"), not(""));
     }
 
     @Test
     public void loginTest() throws Exception {
+        User peterParkerUser = UserMother.createPeterParkerUser();
         userRepository.saveAndFlush(
-                User.createUser(firstName, lastName, mail, password, url,
-                        Calendar.getInstance().getTime(), Calendar.getInstance().getTime())
+                peterParkerUser
         );
 
         JSONObject content = new JSONObject();
-        content.put("mail", mail);
-        content.put("password", password);
+        content.put("mail", peterParkerUser.getMail());
+        content.put("password", peterParkerUser.getPassword());
 
         // Act
         MockHttpServletResponse response = sendRequest(content, MockMvcRequestBuilders.post("/api/user/login"));
         assertThat(response.getStatus(), is(200));
         JSONObject mvcResult = new JSONObject(response.getContentAsString());
 
-        assertThat(mvcResult.getString("mail"), is(mail));
+        assertThat(mvcResult.getString("mail"), is(peterParkerUser.getMail()));
         assertThat(mvcResult.getString("token"), not(""));
     }
 
     @Test
     public void wrongLoginTest() throws Exception {
+        User peterParkerUser = UserMother.createPeterParkerUser();
         userRepository.saveAndFlush(
-                User.createUser(firstName, lastName, mail, password, url,
-                        Calendar.getInstance().getTime(), Calendar.getInstance().getTime())
+                peterParkerUser
         );
 
         JSONObject content = new JSONObject();
-        content.put("mail", mail);
+        content.put("mail", peterParkerUser.getMail());
         content.put("password", "WRONG_PASSWORD");
 
         // Act

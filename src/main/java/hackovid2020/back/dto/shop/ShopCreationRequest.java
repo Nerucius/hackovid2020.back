@@ -14,7 +14,7 @@ public class ShopCreationRequest {
 	
 	private Long ownerId;
 	
-	private FileRequest coverImage;
+	private Long coverImageId;
 	
 	private float latitude;
 	
@@ -29,14 +29,14 @@ public class ShopCreationRequest {
 	@JsonCreator
 	private ShopCreationRequest(
 			@JsonProperty("ownerId") Long ownerId,
-			@JsonProperty("coverImage") FileRequest coverImage,
+			@JsonProperty("coverImage") Long coverImage,
 			@JsonProperty("latitude") float latitude,
 			@JsonProperty("longitude") float longitude,
 			@JsonProperty("streetName") String streetName,
 			@JsonProperty("shopCategoryIds") List<Long> shopCategoryIds,
 			@JsonProperty("shopImageIds") List<Long> shopImages) {
 		this.ownerId = ownerId;
-		this.coverImage = coverImage;
+		this.coverImageId = coverImage;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.streetName = streetName;
@@ -53,8 +53,8 @@ public class ShopCreationRequest {
 		return ownerId;
 	}
 
-	public FileRequest getCoverImage() {
-		return coverImage;
+	public Long getCoverImageId() {
+		return coverImageId;
 	}
 
 	public List<Long> getShopCategoryIds() {
