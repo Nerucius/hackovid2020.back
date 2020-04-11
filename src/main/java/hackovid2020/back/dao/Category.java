@@ -7,39 +7,26 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name="shop_category")
+@Entity(name="category")
 public class Category extends EntityObject {
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long categoryId;
-	
-	@ManyToOne (fetch = FetchType.LAZY)
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private Shop shop;
 	
 	private CategoriesEnum category;
 	
 	@OneToOne (fetch = FetchType.LAZY)
 	private Category parentCategory;
 	
-	private Category(Shop shop, CategoriesEnum category, Category parentCategory, Date createdAt, Date modifiedAt) {
+	private Category(CategoriesEnum category, Category parentCategory, Date createdAt, Date modifiedAt) {
 		super(createdAt, modifiedAt);
-		this.shop = shop;
 		this.category = category;
 		this.parentCategory = parentCategory;
 	}
 	
-	public static Category createCategory(Shop shop, CategoriesEnum categoryEnum, Category parentCategory,
+	public static Category createCategory(CategoriesEnum categoryEnum, Category parentCategory,
                                           Date createdAt, Date modifiedAt) {
-		return new Category(shop, categoryEnum, parentCategory, createdAt, modifiedAt);
-	}
-
-	public Shop getShop() {
-		return shop;
-	}
-
-	public void setShop(Shop shop) {
-		this.shop = shop;
+		return new Category(categoryEnum, parentCategory, createdAt, modifiedAt);
 	}
 
 	public CategoriesEnum getCategory() {

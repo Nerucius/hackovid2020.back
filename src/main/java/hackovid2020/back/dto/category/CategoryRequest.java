@@ -22,7 +22,7 @@ public class CategoryRequest {
 	}
 	
 	public Category toCategory() {
-		return Category.createCategory(null, categoryType, parentCategory,
+		return Category.createCategory(categoryType, parentCategory,
 				Calendar.getInstance().getTime(), Calendar.getInstance().getTime());
 	}
 

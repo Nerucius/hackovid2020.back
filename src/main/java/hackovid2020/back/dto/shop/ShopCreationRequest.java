@@ -3,7 +3,7 @@ package hackovid2020.back.dto.shop;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import hackovid2020.back.dao.Shop;
-import hackovid2020.back.dao.ShopLocation;
+import hackovid2020.back.dao.Location;
 import hackovid2020.back.dao.User;
 import hackovid2020.back.dto.file.FileRequest;
 
@@ -44,7 +44,7 @@ public class ShopCreationRequest {
 		this.shopImageIds = shopImages;
 	}
 	
-	public Shop toShop(User owner, ShopLocation location) {
+	public Shop toShop(User owner, Location location) {
 		return Shop.createShop(null, owner, null, null, location, Calendar.getInstance().getTime(),
 				Calendar.getInstance().getTime());
 	}

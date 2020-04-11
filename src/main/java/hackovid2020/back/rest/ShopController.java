@@ -45,7 +45,7 @@ public class ShopController {
 	@Transactional
 	public ShopDetailsResponse createShop(@RequestBody ShopCreationRequest request) {
 		User owner = userService.findById(request.getOwnerId());
-		ShopLocation location = shopService.saveShopLocation(request.getLatitude(), request.getLongitude(),
+		Location location = shopService.saveShopLocation(request.getLatitude(), request.getLongitude(),
 				request.getStreetName());
 		Shop shop = shopService.saveShop(request.toShop(owner, location));
 		Set<Category> shopCategories = categoryService.findAllShopCategories(request.getShopCategoryIds())
@@ -67,7 +67,7 @@ public class ShopController {
 				.stream().collect(Collectors.toSet());;
 		Set<Category> shopCategories = shopService.findAllShopCategories(shop)
 				.stream().collect(Collectors.toSet());;
-		ShopLocation location = shopService.findShopLocation(shop);
+		Location location = shopService.findShopLocation(shop);
 		return ShopDetailsResponse.ofShop(shop, UserDetailsResponse.ofUser(shop.getUser()),
 				shopImages, shopCategories, location);
 	}

@@ -3,6 +3,10 @@ package hackovid2020.back.dao;
 import hackovid2020.back.dao.support.FileType;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.util.Date;
 
 @Entity(name="file")
@@ -18,6 +22,7 @@ public class File extends EntityObject {
 	private String url;
 	
 	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name="shop_id", nullable=true)
 	private Shop shop;
 	

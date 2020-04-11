@@ -22,18 +22,22 @@ public class Shop extends EntityObject {
 	private File coverImage;
 	
 	@OneToMany(fetch = FetchType.LAZY)
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Set<File> shopImages;
 	
-	@OneToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JoinTable(
+			name="shop_category",
+			joinColumns = @JoinColumn(name="category_id"),
+			inverseJoinColumns = @JoinColumn(name="shop_id"))
 	private Set<Category> categories;
 	
-	@OneToOne
-	private ShopLocation location;
+	@OneToOne(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Location location;
 	
 	private Shop(File coverImage, User user, Set<File> shopImages, Set<Category> categories,
-                 ShopLocation location, Date createdAt, Date modifiedAt) {
+                 Location location, Date createdAt, Date modifiedAt) {
 		super(createdAt, modifiedAt);
 		this.coverImage = coverImage;
 		this.user = user;
@@ -43,7 +47,7 @@ public class Shop extends EntityObject {
 	}
 	
 	public static Shop createShop(File coverImage, User user, Set<File> shopImages, Set<Category> categories,
-                                  ShopLocation location, Date createdAt, Date modifiedAt) {
+                                  Location location, Date createdAt, Date modifiedAt) {
 		return new Shop(coverImage,  user, shopImages, categories, location, createdAt, modifiedAt);
 	}
 
@@ -75,11 +79,11 @@ public class Shop extends EntityObject {
 		this.shopImages = shopImages;
 	}
 
-	public ShopLocation getLocation() {
+	public Location getLocation() {
 		return location;
 	}
 
-	public void setLocation(ShopLocation location) {
+	public void setLocation(Location location) {
 		this.location = location;
 	}
 

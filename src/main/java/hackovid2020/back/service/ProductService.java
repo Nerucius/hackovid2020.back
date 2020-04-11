@@ -4,7 +4,7 @@ import hackovid2020.back.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+/*@Service*/
 public class ProductService {
 
 	private ProductRepository productRepository;

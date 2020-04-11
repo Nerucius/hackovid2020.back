@@ -7,10 +7,10 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
-@Entity(name="product")
+/*@Entity(name="product")*/
 public class Product extends EntityObject {
 
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	/*@Id @GeneratedValue(strategy=GenerationType.IDENTITY)*/
 	private Long productId;
 	
 	private String name;
@@ -21,8 +21,8 @@ public class Product extends EntityObject {
 	
 	private Shop shop;
 	
-	@OneToMany(fetch = FetchType.LAZY)
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	/*@OneToMany(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.CASCADE)*/
 	private Set<File> productImages;
 	
 	private Product(String name, String description, float price, Shop shop, Set<File> productImages, Date createdAt, Date modifiedAt) {

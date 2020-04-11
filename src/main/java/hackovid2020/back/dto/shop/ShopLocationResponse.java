@@ -2,7 +2,7 @@ package hackovid2020.back.dto.shop;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import hackovid2020.back.dao.ShopLocation;
+import hackovid2020.back.dao.Location;
 
 import java.util.Date;
 
@@ -37,8 +37,8 @@ public class ShopLocationResponse {
 		this.modifiedAt = modifiedAt;
 	}
 	
-	public static ShopLocationResponse ofShopLocation(ShopLocation location) {
-		return new ShopLocationResponse(location.getShopLocationId(), location.getLatitude(), location.getLongitude(),
+	public static ShopLocationResponse ofShopLocation(Location location) {
+		return new ShopLocationResponse(location.getLocationId(), location.getLatitude(), location.getLongitude(),
 				location.getStreetName(), location.getCreatedAt(), location.getModifiedAt());
 	}
 

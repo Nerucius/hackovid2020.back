@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import hackovid2020.back.dao.Category;
 import hackovid2020.back.dao.File;
 import hackovid2020.back.dao.Shop;
-import hackovid2020.back.dao.ShopLocation;
+import hackovid2020.back.dao.Location;
 import hackovid2020.back.dto.file.FileResponse;
 import hackovid2020.back.dto.user.UserDetailsResponse;
 
@@ -53,7 +53,7 @@ public class ShopDetailsResponse {
 	}
 	
 	public static ShopDetailsResponse ofShop(Shop shop, UserDetailsResponse userDetailsResponse,
-                                             Set<File> shopImages, Set<Category> shopCategories, ShopLocation shopLocation) {
+                                             Set<File> shopImages, Set<Category> shopCategories, Location shopLocation) {
 		Set<FileResponse> shopImageResponseList = shopImages.stream()
 				.map(FileResponse::ofFile).collect(Collectors.toSet());
 		Set<ShopCategoryResponse> shopCategoriesResponseList = shopCategories.stream()

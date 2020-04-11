@@ -29,7 +29,6 @@ import static org.junit.Assert.assertThat;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-@Ignore
 public class HackovidStartTest {
 
     @Autowired

@@ -5,61 +5,12 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-	<changeSet id="create-shop-table" author="alvaro.ortega">
-		<createTable tableName="shop">
-			<column name="shop_id" type="bigint" autoIncrement="true">
-				<constraints primaryKey="true" primaryKeyName="shop_pk"
+	<changeSet id="create-location-table" author="alvaro.ortega">
+		<createTable tableName="location">
+			<column name="location_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" primaryKeyName="location_pk"
 						nullable="false"/>
 			</column>
-			<column name="user_user_id" type="bigint"></column>
-			<column name="cover_url" type="varchar(64)"></column>
-			<column name="created_at" type="date"/>
-			<column name="modified_at" type="date"/>
-
-		</createTable>
-		<addForeignKeyConstraint constraintName="shop_user" referencedTableName="user" 
-		baseColumnNames="user_user_id" baseTableName="shop" referencedColumnNames="user_id"/>
-	</changeSet>
-	
-	<changeSet id="create-shop-image-table" author="alvaro.ortega">
-		<createTable tableName="shop_image">
-			<column name="shop_image_id" type="bigint" autoIncrement="true">
-				<constraints primaryKey="true" primaryKeyName="shop_image_pk"
-						nullable="false"/>
-			</column>
-			<column name="shop_shop_id" type="bigint"></column>
-			<column name="image_url" type="varchar(64)"></column>
-			<column name="created_at" type="date"/>
-			<column name="modified_at" type="date"/>
-
-		</createTable>
-		<addForeignKeyConstraint constraintName="shop_image_shop" referencedTableName="shop" 
-		baseColumnNames="shop_shop_id" baseTableName="shop_image" referencedColumnNames="shop_id"/>
-	</changeSet>
-	
-	<changeSet id="create-shop-category-table" author="alvaro.ortega">
-		<createTable tableName="shop_category">
-			<column name="shop_category_id" type="bigint" autoIncrement="true">
-				<constraints primaryKey="true" primaryKeyName="shop_category_pk"
-						nullable="false"/>
-			</column>
-			<column name="shop_shop_id" type="bigint"></column>
-			<column name="category" type="int"></column>
-			<column name="created_at" type="date"/>
-			<column name="modified_at" type="date"/>
-
-		</createTable>
-		<addForeignKeyConstraint constraintName="shop_category_shop" referencedTableName="shop" 
-		baseColumnNames="shop_shop_id" baseTableName="shop_image" referencedColumnNames="shop_id"/>
-	</changeSet>
-	
-	<changeSet id="create-shop-location-table" author="alvaro.ortega">
-		<createTable tableName="shop_location">
-			<column name="shop_location_id" type="bigint" autoIncrement="true">
-				<constraints primaryKey="true" primaryKeyName="shop_location_pk"
-						nullable="false"/>
-			</column>
-			<column name="shop_shop_id" type="bigint"></column>
 			<column name="latitude" type="DECIMAL"></column>
 			<column name="longitude" type="DECIMAL"></column>
 			<column name="street_name" type="varchar(64)"></column>
@@ -67,8 +18,80 @@
 			<column name="modified_at" type="date"/>
 
 		</createTable>
-		<addForeignKeyConstraint constraintName="shop_location_shop" referencedTableName="shop" 
-		baseColumnNames="shop_shop_id" baseTableName="shop_location" referencedColumnNames="shop_id"/>
+	</changeSet>
+	
+	<changeSet id="create-shop-table" author="alvaro.ortega">
+		<createTable tableName="shop">
+			<column name="shop_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" primaryKeyName="shop_pk"
+						nullable="false"/>
+			</column>
+			<column name="user_user_id" type="bigint"></column>
+			<column name="location_location_id" type="bigint"></column>
+			<column name="created_at" type="date"/>
+			<column name="modified_at" type="date"/>
+
+		</createTable>
+		<addForeignKeyConstraint constraintName="shop_user" referencedTableName="user" 
+		baseColumnNames="user_user_id" baseTableName="shop" referencedColumnNames="user_id"/>
+		
+		<addForeignKeyConstraint constraintName="shop_location" referencedTableName="location" 
+		baseColumnNames="location_location_id" baseTableName="shop" referencedColumnNames="location_id"/>
+	</changeSet>
+	
+	<changeSet id="create-file-table" author="alvaro.ortega">
+		<createTable tableName="file">
+			<column name="file_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" primaryKeyName="file_pk"
+						nullable="false"/>
+			</column>
+			<column name="name" type="varchar(64)"></column>
+			<column name="image_url" type="varchar(64)"></column>
+			<column name="file_type" type="int"></column>
+			<column name="created_at" type="date"/>
+			<column name="modified_at" type="date"/>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="add_dependant_shop_category_columns" author="alvaro.ortega">
+		<addColumn tableName="shop">
+			<column name="cover_image_file_id" type="bigint"></column>
+		</addColumn>
+		<addColumn tableName="file">
+			<column name="shop_shop_id" type="bigint"></column>
+		</addColumn>
+		
+		<addForeignKeyConstraint constraintName="shop_cover_image" referencedTableName="file" 
+		baseColumnNames="cover_image_file_id" baseTableName="shop" referencedColumnNames="file_id"/>
+		<addForeignKeyConstraint constraintName="file_shop" referencedTableName="shop" 
+		baseColumnNames="shop_shop_id" baseTableName="file" referencedColumnNames="shop_id"/>
+	</changeSet>
+	
+	<changeSet id="create-shop-category-table" author="alvaro.ortega">
+		<createTable tableName="category">
+			<column name="category_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" primaryKeyName="category_pk"
+						nullable="false"/>
+			</column>
+			<column name="parent_category" type="int"></column>
+			<column name="created_at" type="date"/>
+			<column name="modified_at" type="date"/>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="create-category-shop-intermediate-table" author="alvaro.ortega">
+		<createTable tableName="shop_category">
+			<column name="shop_category_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" primaryKeyName="shop_category_pk"
+						nullable="false"/>
+			</column>
+			<column name="shop_shop_id" type="bigint"></column>
+			<column name="category_category_id" type="bigint"></column>
+		</createTable>
+		<addForeignKeyConstraint constraintName="shop_category_shop" referencedTableName="shop" 
+		baseColumnNames="shop_shop_id" baseTableName="shop_category" referencedColumnNames="shop_id"/>
+		<addForeignKeyConstraint constraintName="shop_category_category" referencedTableName="category" 
+		baseColumnNames="category_category_id" baseTableName="shop_category" referencedColumnNames="category_id"/>
 	</changeSet>
 	
 </databaseChangeLog>

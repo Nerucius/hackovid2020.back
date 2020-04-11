@@ -6,11 +6,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
-@Entity(name="shop_location")
-public class ShopLocation extends EntityObject {
+@Entity(name="location")
+public class Location extends EntityObject {
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long shopLocationId;
+	private Long locationId;
 	
 	private float latitude;
 	
@@ -18,16 +18,16 @@ public class ShopLocation extends EntityObject {
 	
 	private String streetName;
 	
-	private ShopLocation(float latitude, float longitude, String streetName, Date createdAt, Date modifiedAt) {
+	private Location(float latitude, float longitude, String streetName, Date createdAt, Date modifiedAt) {
 		super(createdAt, modifiedAt);
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.streetName = streetName;
 	}
 	
-	public static ShopLocation createShopLocation(float latitude, float longitude, String streetName,
+	public static Location createLocation(float latitude, float longitude, String streetName,
                                                   Date createdAt, Date modifiedAt) {
-		return new ShopLocation(latitude, longitude, streetName, createdAt, modifiedAt);
+		return new Location(latitude, longitude, streetName, createdAt, modifiedAt);
 	}
 
 	public float getLatitude() {
@@ -54,8 +54,8 @@ public class ShopLocation extends EntityObject {
 		this.streetName = streetName;
 	}
 
-	public Long getShopLocationId() {
-		return shopLocationId;
+	public Long getLocationId() {
+		return locationId;
 	}
 	
 }
