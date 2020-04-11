@@ -67,9 +67,8 @@ public class ShopController {
 				.stream().collect(Collectors.toSet());;
 		Set<Category> shopCategories = shopService.findAllShopCategories(shop)
 				.stream().collect(Collectors.toSet());;
-		Location location = shopService.findShopLocation(shop);
 		return ShopDetailsResponse.ofShop(shop, UserDetailsResponse.ofUser(shop.getUser()),
-				shopImages, shopCategories, location);
+				shopImages, shopCategories, shop.getLocation());
 	}
 	
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)

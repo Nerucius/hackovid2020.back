@@ -40,9 +40,7 @@ public class ShopService {
 	}
 	
 	public List<Category> findAllShopCategories(Shop shop) {
-		List<Category> categories = new ArrayList<>();
-		return categories;
-		//return categoryRepository.findByShopShopId(shop.getShopId());
+		return shopRepository.findAllShopCategories(shop.getShopId());
 	}
 
 	public Shop findById(Long id) {
@@ -54,11 +52,6 @@ public class ShopService {
 		Location location = Location.createLocation(latitude, longitude, streetName, date, date);
 		return shopLocationRepository.save(location);
 	}
-	
-	public Location findShopLocation(Shop shop) {
-		//return shopLocationRepository.findByShopShopId(shop.getShopId());
-		return null;
-	}
 
 	public List<Shop> findAllShops() {
 		return shopRepository.findAll();
@@ -67,14 +60,14 @@ public class ShopService {
 	public Shop updateShop(Long id, Long coverImageId, float latitude, float longitude, String streetName) {
 		Shop shop = shopRepository.getOne(id);
 		File coverImage = fileRepository.getOne(coverImageId);
-		/*Location location = shopLocationRepository.findByShopShopId(id);
+		Location location = shopLocationRepository.getOne(shop.getLocation().getLocationId());
 		
 		location.setLatitude(latitude);
 		location.setLongitude(longitude);
 		location.setStreetName(streetName);
 		location.setModifiedAt(Calendar.getInstance().getTime());
 		shopLocationRepository.save(location);
-		shop.setLocation(location);*/
+		shop.setLocation(location);
 		
 		shop.setCoverImage(coverImage);
 		shop.setModifiedAt(Calendar.getInstance().getTime());
