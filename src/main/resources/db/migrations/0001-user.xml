@@ -6,7 +6,6 @@
                             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
 	<changeSet id="create-user-table" author="alvaro.ortega">
-		<validCheckSum>ANY</validCheckSum>
 		<createTable tableName="user">
 			<column name="user_id" type="bigint" autoIncrement="true">
 				<constraints primaryKey="true" primaryKeyName="user_pk"
