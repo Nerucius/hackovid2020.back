@@ -27,7 +27,7 @@ public class ShopService {
 	private FileRepository fileRepository;
 	
 	public Shop saveShop(Shop shop) {
-		return shopRepository.save(shop);
+		return shopRepository.saveAndFlush(shop);
 	}
 	
 	public List<File> findAllShopImages(Shop shop) {
@@ -45,7 +45,7 @@ public class ShopService {
 	public Location saveShopLocation(float latitude, float longitude, String streetName) {
 		Date date = Calendar.getInstance().getTime();
 		Location location = Location.createLocation(latitude, longitude, streetName, date, date);
-		return shopLocationRepository.save(location);
+		return shopLocationRepository.saveAndFlush(location);
 	}
 
 	public List<Shop> findAllShops() {
@@ -61,12 +61,12 @@ public class ShopService {
 		location.setLongitude(longitude);
 		location.setStreetName(streetName);
 		location.setModifiedAt(Calendar.getInstance().getTime());
-		shopLocationRepository.save(location);
+		shopLocationRepository.saveAndFlush(location);
 		shop.setLocation(location);
 		
 		shop.setCoverImage(coverImage);
 		shop.setModifiedAt(Calendar.getInstance().getTime());
-		return shopRepository.save(shop);
+		return shopRepository.saveAndFlush(shop);
 	}
 
 	public void deleteShop(Long id) {

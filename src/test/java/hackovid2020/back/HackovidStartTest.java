@@ -7,6 +7,7 @@ import hackovid2020.back.repository.CategoryRepository;
 import hackovid2020.back.repository.FileRepository;
 import hackovid2020.back.repository.UserRepository;
 import hackovid2020.back.utils.MD5Util;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -197,8 +198,8 @@ public class HackovidStartTest {
         content.put("latitude", 20f);
         content.put("longitude", 20f);
         content.put("streetname", "Aribau");
-        content.put("shopCategoryIds", categories.stream().map(Category::getCategoryId).collect(Collectors.toList()));
-        content.put("shopImageIds", files.stream().map(File::getFileId).toArray());
+        content.put("shopCategoryIds", new JSONArray(categories.stream().map(Category::getCategoryId).collect(Collectors.toList())));
+        content.put("shopImageIds", new JSONArray(files.stream().map(File::getFileId).toArray()));
 
         // Act
         MockHttpServletResponse response = sendRequest(content, MockMvcRequestBuilders.post("/api/shop/"));

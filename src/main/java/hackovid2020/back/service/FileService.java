@@ -30,7 +30,13 @@ public class FileService {
 	}
 
 	public File saveFile(File file) {
-		return fileRepository.save(file);
+		return fileRepository.saveAndFlush(file);
+	}
+
+	public List<File> saveAllFiles(List<File> files) {
+		List<File> filesSaved = fileRepository.saveAll(files);
+		fileRepository.flush();
+		return filesSaved;
 	}
 
 	public File updateFile(Long id, String name, FileType fileType, String url) {
@@ -39,7 +45,7 @@ public class FileService {
 		file.setFileType(fileType);
 		file.setUrl(url);
 		file.setModifiedAt(Calendar.getInstance().getTime());
-		return fileRepository.save(file);
+		return saveFile(file);
 	}
 
 	public void deleteFile(Long id) {
@@ -49,13 +55,13 @@ public class FileService {
 	public void assignShopToFiles(List<Long> ids, Shop shop) {
 		List<File> files = fileRepository.findAllById(ids);
 		files.forEach(x -> x.setShop(shop));
-		fileRepository.saveAll(files);
+		saveAllFiles(files);
 	}
 	
 	public void assignProductToFiles(List<Long> ids, Product product) {
 		List<File> files = fileRepository.findAllById(ids);
 		files.forEach(x -> x.setProduct(product));
-		fileRepository.saveAll(files);
+		saveAllFiles(files);
 	}
 
 }

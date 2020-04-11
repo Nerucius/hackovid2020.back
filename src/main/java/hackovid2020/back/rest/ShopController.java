@@ -47,7 +47,11 @@ public class ShopController {
 		User owner = userService.findById(request.getOwnerId());
 		Location location = shopService.saveShopLocation(request.getLatitude(), request.getLongitude(),
 				request.getStreetName());
-		Shop shop = shopService.saveShop(request.toShop(owner, location));
+
+		Shop shop = request.toShop(owner, location);
+		shop.setCoverImage(fileService.findFileById(request.getCoverImageId()));
+		shop = shopService.saveShop(shop);
+
 		Set<Category> shopCategories = categoryService.findAllShopCategories(request.getShopCategoryIds())
 				.stream().collect(Collectors.toSet());
 		Set<File> shopImages = fileService.findAllShopImages(request.getShopImageIds())
