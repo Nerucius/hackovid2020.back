@@ -2,6 +2,7 @@ package hackovid2020.back.config;
 
 import hackovid2020.back.service.support.AuthenticationFilter;
 import hackovid2020.back.service.support.AuthenticationProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -19,12 +21,19 @@ import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
-	private static final RequestMatcher PROTECTED_URLS = new AntPathRequestMatcher("/api/**");
-	
+	private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher(
+			new AntPathRequestMatcher("/api/**", "GET"),
+			new AntPathRequestMatcher("/api/**", "PUT"),
+			new AntPathRequestMatcher("/api/**", "POST"),
+			new AntPathRequestMatcher("/api/**", "DELETE")
+	);
+
 	AuthenticationProvider provider;
 
+	@Autowired
 	public SecurityConfiguration(final AuthenticationProvider authenticationProvider) {
 		super();
 		this.provider = authenticationProvider;
@@ -68,7 +77,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 	
 	
-	AuthenticationFilter authenticationFilter() throws Exception {
+	private AuthenticationFilter authenticationFilter() throws Exception {
 		final AuthenticationFilter filter = new AuthenticationFilter(PROTECTED_URLS);
 		filter.setAuthenticationManager(authenticationManager());
 		return filter;

@@ -19,7 +19,6 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,15 +71,14 @@ public class HackovidStartTest {
     public void testCors() throws Exception {
         MockHttpServletResponse response = sendRequest(new JSONObject(),
                 MockMvcRequestBuilders
-                        .get("/api/user")
-                        .header("Access-Control-Request-Method", "GET")
-                        .header("Origin", "https://evil.com")
+                        .options("/api/user")
+                        .header("Origin", "http://localhost:8080")
         );
         assertThat(response.getStatus(), is(200));
     }
 
     @Test
-    public void testOptionRequest() throws Exception {
+    public void testOptionsRequest() throws Exception {
         MockHttpServletResponse response = sendRequest(new JSONObject(),
                 MockMvcRequestBuilders
                         .options("/api/user")
@@ -118,6 +116,36 @@ public class HackovidStartTest {
         assertThat(mvcResult.getString("mail"), is(peterParkerUser.getMail()));
         assertThat(mvcResult.has("password"), is(false));
         assertThat(mvcResult.getString("token"), not(""));
+    }
+
+    @Test
+    public void getUserTest() throws Exception {
+        User peterParkerUser = UserMother.createPeterParkerUser();
+        userRepository.saveAndFlush(
+                peterParkerUser
+        );
+
+        JSONObject content = new JSONObject();
+        content.put("firstName", peterParkerUser.getFirstName());
+        content.put("lastName", peterParkerUser.getLastName());
+        content.put("mail", peterParkerUser.getMail());
+        content.put("password", peterParkerUser.getPassword());
+
+        // Act
+        MockHttpServletResponse response = sendRequest(new JSONObject(),
+                MockMvcRequestBuilders.get("/api/user")
+                        .queryParam("id", peterParkerUser.getUserId().toString())
+        );
+        assertThat(response.getStatus(), is(200));
+        JSONObject mvcResult = new JSONObject(response
+                .getContentAsString());
+        // Assert
+        assertThat(mvcResult.getString("firstName"), is(peterParkerUser.getFirstName()));
+        assertThat(mvcResult.getString("lastName"), is(peterParkerUser.getLastName()));
+        assertThat(mvcResult.getString("mail"), is(peterParkerUser.getMail()));
+        assertThat(mvcResult.has("password"), is(false));
+        assertThat(mvcResult.getString("token"), not(""));
+
     }
 
     @Test
