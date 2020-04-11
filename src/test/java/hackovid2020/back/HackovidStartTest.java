@@ -1,6 +1,10 @@
 package hackovid2020.back;
 
+import hackovid2020.back.dao.Category;
+import hackovid2020.back.dao.File;
 import hackovid2020.back.dao.User;
+import hackovid2020.back.repository.CategoryRepository;
+import hackovid2020.back.repository.FileRepository;
 import hackovid2020.back.repository.UserRepository;
 import hackovid2020.back.utils.MD5Util;
 import org.json.JSONObject;
@@ -20,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.Calendar;
+import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -36,6 +41,12 @@ public class HackovidStartTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private FileRepository fileRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Test
     public void WeWantToCreateANewUserEntity() {
@@ -112,6 +123,43 @@ public class HackovidStartTest {
         // Act
         MockHttpServletResponse response = sendRequest(content, MockMvcRequestBuilders.post("/api/user/login"));
         assertThat(response.getStatus(), is(403));
+    }
+
+    @Test
+    public void createShopTest() throws Exception {
+        User peterParkerUser = UserMother.createPeterParkerUser();
+        userRepository.saveAndFlush(peterParkerUser);
+
+        List<File> files = FileMother.createRandomFiles(3);
+        fileRepository.saveAll(files);
+        fileRepository.flush();
+
+        List<Category> categories = CategoryMother.createRandomCategories(3);
+        categoryRepository.saveAll(categories);
+        categoryRepository.flush();
+
+        JSONObject content = new JSONObject();
+        content.put("ownerId", peterParkerUser.getUserId());
+        content.put("coverImage", files.get(0).getFileId());
+        content.put("latitude", 20f);
+        content.put("longitude", 20f);
+        content.put("streetname", "Aribau");
+        content.put("shopCategoryIds", categories.stream().map(Category::getCategoryId).toArray());
+        content.put("shopImageIds", files.stream().map(File::getFileId).toArray());
+
+        // Act
+        MockHttpServletResponse response = sendRequest(content, MockMvcRequestBuilders.post("/api/shop/"));
+        assertThat(response.getStatus(), is(200));
+
+        JSONObject mvcResult = new JSONObject(response.getContentAsString());
+
+        assertThat(mvcResult.has("shopId"), not(false));
+        assertThat(mvcResult.has("coverImage"), not(false));
+        assertThat(mvcResult.has("userDetailsResponse"), not(false));
+        assertThat(mvcResult.has("createdAt"), not(false));
+        assertThat(mvcResult.has("modifiedAt"), not(false));
+        assertThat(mvcResult.has("shopImages"), not(false));
+        assertThat(mvcResult.has("shopCategories"), not(false));
     }
 
     private MockHttpServletResponse sendRequest(JSONObject content, MockHttpServletRequestBuilder builder) throws Exception {
